@@ -12,7 +12,7 @@ MagTag Temperature Data Logger permits ambient temperature monitoring in the env
 ![GitHub repo size](https://img.shields.io/github/repo-size/OneOfTheInfiniteMonkeys/MTDL?style=flat-square)
 
 ## Introduction
-The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient e.g. room temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature point is required. Where relative temperatures are satisfactory, no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
+The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient e.g. room temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature point needs to be established, perhaps with reference to an existing room sensor (see Calibration section). This opreation should only be required once. Where relative temperatures are satisfactory, no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
 
 ## Installation
 Requirements
@@ -40,15 +40,15 @@ Important - Required for use is a small <a href="https://www.adafruit.com/produc
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
 
 ## Discussion
-Design of the Magtag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat to approximately 33 C with a room ambient of 21 C under typical use conditions. This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
+Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat to approximately 33 C with a room ambient of 21 C under typical use conditions. This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
 
 
-Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somwhat slower than the air temperature change.
+Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somewhat slower than the air temperature change.
 
-For sensing of the ambient temperaure air flow should ideally not be restricted. Testing wihin a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated resonable thermal sensitivity.  
+For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated reasonable thermal sensitivity.  
 
 An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
 
 All information is For Indication only.  
-No association, affiliation, reccomendation, suitability, fitness for purpose should be assumed or is implied.  
+No association, affiliation, recommendation, suitability, fitness for purpose should be assumed or is implied.  
 Registered trademarks are owned by their respective registrants.  
