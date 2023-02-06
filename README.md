@@ -44,3 +44,7 @@ Use of magnetic stand off feet to attach the MagTag to a metallic surface will m
 For sensing of the ambient temperaure air flow should ideally not be restricted. Testing wihin a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated resonable thermal sensitivity.  
 
 An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
+
+All information is For Indication only.  
+No association, affiliation, reccomendation, suitability, fitness for purpose should be assumed or is implied.  
+Registered trademarks are owned by their respective registrants.  
