@@ -1,7 +1,11 @@
 # MTDL (MagTag Data Logger) - {Pre-Release}
 MagTag Temperature Data Logger permits ambient temperature monitoring in the environment of the device, using an internal sensor on the MagTags PCB (other data could readily be logged). With minmimal calibration, obviates the need for additional external hardware. Typically 1 C resolution, ±1 C accuracy, ~0.35 C / minute for a 5 C step change, range -20 to +60 C. Based on Adafruit example code. Additional features include Segment numeric indicator and data graphing on the e-ink display of the <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a> device.
 
-<img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
+  </div>
+</div>  
 
 [![Language](https://img.shields.io/static/v1?label=CircuitPython&message=7.3.0&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
 [![Language](https://img.shields.io/static/v1?label=CircuitPython&message=8.0.0-beta.6&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
@@ -40,8 +44,13 @@ Important - Required for use is a small <a href="https://www.adafruit.com/produc
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
 
 ## Discussion
-Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat to approximately 33 C with a room ambient of 21 C under typical use conditions. This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
+Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat, To approximately 33 C with a room ambient of 21 C under typical use conditions. This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
 
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/MagTag-Thermal-USB-Powered-00.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB with USB power, Thermal Image. Image copyright (c) 04 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Emisivity set for PCB, room ambient 22 C">
+  </div>
+</div>  
 
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somewhat slower than the air temperature change.
 
