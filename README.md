@@ -32,4 +32,4 @@ Note
 
 ## Hardware
 Important - Required for use is a small <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.  
-Suggested - <a href="https://www.adafruit.com/product/4807">Acrylic + Hardware Kit for Adafruit MagTag<a>  
+Suggested - <a href="https://www.adafruit.com/product/4807 target="_blank"">Acrylic + Hardware Kit for Adafruit MagTag<a>  
