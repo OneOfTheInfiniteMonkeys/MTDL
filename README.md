@@ -40,6 +40,9 @@ Important - Required for use is a small <a href="https://www.adafruit.com/produc
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
 
 ## Discussion
+Design of the Magtag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat to approximately 33 C with a room ambient of 21 C under typical use conditions. This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
+
+
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somwhat slower than the air temperature change.
 
 For sensing of the ambient temperaure air flow should ideally not be restricted. Testing wihin a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated resonable thermal sensitivity.  
