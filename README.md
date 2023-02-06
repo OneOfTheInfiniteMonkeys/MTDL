@@ -1,7 +1,7 @@
 # MTDL (MagTag Data Logger) - {Pre-Release}
 MagTag Temperature Data Logger permits ambient temperatue monitoring in the environment of the device, using an internal sensor on the MagTags PCB (other data could readily be logged). With minmimal calibration, obviates the need for additional external hardware. Typically 1 C resolution, ±1 C accuracy, ~0.35 C / minute for a 5 C step change, range -20 to +60 C. Based on Adafruit example code. Additional features include Segment numeric indicators and data graphing on the e-ink display of the <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a> device.
 
-<img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" width="300px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
+<img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
 
 [![Language](https://img.shields.io/static/v1?label=CircuitPython&message=7.3.0&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
 [![Language](https://img.shields.io/static/v1?label=CircuitPython&message=8.0.0-beta.6&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
@@ -31,4 +31,5 @@ Note
 - The '<a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/Magtag%20PowerPoint%20Layout%2003.pptx">Magtag PowerPoint Layout 03.pptx</a>' file is a Microsoft&trade; PowerPoint&trade; pack with slidemaster backgrounds consisting of a Magtag graphic to enable graphic design prior to coding. The image scale approximates to 2:1 The file should load into Google&trade; Docs, though this has not be tested.
 
 ## Hardware
-Important - Required for use is a small <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.
+Important - Required for use is a small <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.  
+Suggested - <a href="https://www.adafruit.com/product/4807">Acrylic + Hardware Kit for Adafruit MagTag<a>  
