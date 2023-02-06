@@ -12,7 +12,7 @@ MagTag Temperature Data Logger permits ambient temperatue monitoring in the envi
 ![GitHub repo size](https://img.shields.io/github/repo-size/OneOfTheInfiniteMonkeys/MTDL?style=flat-square)
 
 ## Introduction
-The CircuitPython implementation on the MagTag Data Logger is intended to allow ambient temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature is required. If relative temperatures are satisfactory no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
+The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature is required. If relative temperatures are satisfactory no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
 
 ## Installation
 Requirements
@@ -22,14 +22,18 @@ Requirements
 Optional  
 - <a href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB cable connection to host computer</a>
 
-Copy the files located in the dist folder to the CIRCUITPY folder of the Adafruit MagTag.
+Copy the files located in the dist folder to the CIRCUITPY folder of the Adafruit MagTag.  
 
 Note 
 - The implementation can use WiFi and thus a secrets.py file should typically have any entries, it must be in the CIRCUITPY drive .
 - Following release of <a href="https://github.com/adafruit/circuitpython/releases" target="_blank">CircuitPython 7</a> to stable, the code implements switch off of HID disk and serial ports via boot.py.
 - If electing to use alternate CircuitPython releases <a href="https://github.com/adafruit/circuitpython/releases" target="_blank"> e.g. CircuitPython 7.1.x etc.</a> you need to replace the lib .mpy files with the release counterparts in the lib folder.
 - The '<a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/Magtag%20PowerPoint%20Layout%2003.pptx">Magtag PowerPoint Layout 03.pptx</a>' file is a Microsoft&trade; PowerPoint&trade; pack with slidemaster backgrounds consisting of a Magtag graphic to enable graphic design prior to coding. The image scale approximates to 2:1 The file should load into Google&trade; Docs, though this has not be tested.
+- Ensure any temperature changes result in no condensation in or on the electronics
+- LiPo cells may degrade at temperature extremes
+- Display may not operate at low temperatures, the software is coded to omit updates below -9 C
+- Operation outside the manufacturers specification(s) for any component must not occur
 
 ## Hardware
 Important - Required for use is a small <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.  
-Suggested - <a href="https://www.adafruit.com/product/4807 target="_blank"">Acrylic + Hardware Kit for Adafruit MagTag<a>  
+Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
