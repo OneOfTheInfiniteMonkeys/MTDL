@@ -18,7 +18,7 @@ The CircuitPython implementation of the MagTag Data Logger is intended to allow 
 Requirements
 - <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a>
 - <a href="https://www.adafruit.com/product/4236" target="_blank">Adafruit LiPo Cell (typical)</a>
-- <a href="https://downloads.circuitpython.org/bin/adafruit_magtag_2.9_grayscale/en_GB/adafruit-circuitpython-adafruit_magtag_2.9_grayscale-en_GB-6.3.0.uf2" target="_blank">CicruitPython 7.0.0</a>
+- <a href="https://downloads.circuitpython.org/bin/adafruit_magtag_2.9_grayscale/en_GB/adafruit-circuitpython-adafruit_magtag_2.9_grayscale-en_GB-7.3.0.uf2" target="_blank">CicruitPython 7.3.0</a>
 
 Optional  
 - <a href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB cable connection to host computer</a>
