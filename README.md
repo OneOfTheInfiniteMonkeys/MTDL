@@ -1,5 +1,5 @@
 # MTDL (MagTag Data Logger) - {Pre-Release}
-MagTag Temperature Data Logger permits ambient temperatue monitoring in the environment of the device, using an internal sensor on the MagTags PCB (other data could readily be logged). With minmimal calibration, obviates the need for additional external hardware. Typically 1 C resolution, ±1 C accuracy, ~0.35 C / minute for a 5 C step change, range -20 to +60 C. Based on Adafruit example code. Additional features include Segment numeric indicators and data graphing on the e-ink display of the <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a> device.
+MagTag Temperature Data Logger permits ambient temperature monitoring in the environment of the device, using an internal sensor on the MagTags PCB (other data could readily be logged). With minmimal calibration, obviates the need for additional external hardware. Typically 1 C resolution, ±1 C accuracy, ~0.35 C / minute for a 5 C step change, range -20 to +60 C. Based on Adafruit example code. Additional features include Segment numeric indicator and data graphing on the e-ink display of the <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a> device.
 
 <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
 
@@ -12,7 +12,7 @@ MagTag Temperature Data Logger permits ambient temperatue monitoring in the envi
 ![GitHub repo size](https://img.shields.io/github/repo-size/OneOfTheInfiniteMonkeys/MTDL?style=flat-square)
 
 ## Introduction
-The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature is required. If relative temperatures are satisfactory no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
+The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient e.g. room temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature point is required. Where relative temperatures are satisfactory, no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
 
 ## Installation
 Requirements
@@ -37,3 +37,10 @@ Note
 ## Hardware
 Important - Required for use is a small <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.  
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
+
+## Discussion
+Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somwhat slower than the air temperature change.
+
+For sensing of the ambient temperaure air flow should ideally not be restricted. Testing wihin a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated resonable thermal sensitivity.  
+
+An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
