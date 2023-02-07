@@ -25,12 +25,12 @@ Requirements
 - <a href="https://downloads.circuitpython.org/bin/adafruit_magtag_2.9_grayscale/en_GB/adafruit-circuitpython-adafruit_magtag_2.9_grayscale-en_GB-7.3.0.uf2" target="_blank">CicruitPython 7.3.0</a>
 
 Optional  
-- <a href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB cable connection to host computer</a>
+- <a href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB C cable connection to host computer</a>
 
 Copy the files located in the dist folder to the CIRCUITPY folder of the Adafruit MagTag.  
 
 Note 
-- The implementation can use WiFi and thus a secrets.py file should typically have any entries, it must be in the CIRCUITPY drive .
+- The implementation may optionally use WiFi and thus a secrets.py file should typically have any entries, it must be in the CIRCUITPY drive .
 - Following release of <a href="https://github.com/adafruit/circuitpython/releases" target="_blank">CircuitPython 7</a> to stable, the code implements switch off of HID disk and serial ports via boot.py.
 - If electing to use alternate CircuitPython releases <a href="https://github.com/adafruit/circuitpython/releases" target="_blank"> e.g. CircuitPython 7.1.x etc.</a> you need to replace the lib .mpy files with the release counterparts in the lib folder.
 - The '<a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/Magtag%20PowerPoint%20Layout%2003.pptx">Magtag PowerPoint Layout 03.pptx</a>' file is a Microsoft&trade; PowerPoint&trade; pack with slidemaster backgrounds consisting of a Magtag graphic to enable graphic design prior to coding. The image scale approximates to 2:1 The file should load into Google&trade; Docs, though this has not be tested.
@@ -44,7 +44,7 @@ Important - Required for use is a small <a href="https://www.adafruit.com/produc
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
 
 ## Discussion
-Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to heat, To approximately 32 C with a room ambient of 22 C under typical use continous use conditions with Mu editor (even with sleep modes). This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to heat soak from the ESP32-S2 and voltage regulators.  
+Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to be heated. To approximately 32 C with a room ambient of 22 C under typical continous use conditions with <a href="https://codewith.mu/" target="_blank">Mu editor</a> (even with <a href="https://docs.circuitpython.org/en/latest/shared-bindings/alarm/index.html" target="_blank">sleep modes</a>). This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to the typical heat soak from the ESP32-S2 and voltage regulators.  
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
@@ -52,9 +52,9 @@ Design of the MagTag means that when the unit is powered from the USB port the o
   </div>
 </div>  
 
-Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness. Provided the attachment point moves largely with the environment (room) the impact should be relatively limited, if somewhat slower than the air temperature change.
+Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness and thermal heats soak profile. Where not powered from the USB port and the attachment point moves largely with the environment (room) the impact would be anticiapted to somewhat limited, if somewhat slower than the air temperature change.
 
-For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case the MagTag was attached to demonstrated reasonable thermal sensitivity.  
+For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
 An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
 
