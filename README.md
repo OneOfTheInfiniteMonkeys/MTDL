@@ -47,7 +47,7 @@ Design of the MagTag means that when the unit is powered from the USB port the o
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/MagTag-Thermal-USB-Powered-00.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB with USB power, Thermal Image. Image copyright (c) 04 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Emissivity set for PCB, room ambient 22 C">
+  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/MagTag-Thermal-USB-Powered-00.jpg" width="400px" alt="Adafruit MagTag Data Logger PCB with USB power, Thermal Image. Image copyright (c) 04 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Emissivity set for PCB, room ambient 22 C">
   </div>
 </div>  
 
@@ -58,14 +58,25 @@ Use of magnetic stand off feet to attach the MagTag to a metallic surface will m
 For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
 ## Calibration
-TBD
+To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed. Such as polynomials or look up tables. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
+
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Tempeature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DG temperature performance characterisation. (c) 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
+  </div>
+</div>
+
+From two randomly selected MagTag devices purchase at the same time, the offset difference was found to be ~6 units.
 
 ## MQQT
-TBD
+Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file.
+
+
 
 ## Note
-An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
-
+An external temperature (or other) sensor(s) channel could readily be substituted, via the MagTags data connections if desired.
+  
+  
 All information is For Indication only.  
 No association, affiliation, recommendation, suitability, fitness for purpose should be assumed or is implied.  
 Registered trademarks are owned by their respective registrants.  
