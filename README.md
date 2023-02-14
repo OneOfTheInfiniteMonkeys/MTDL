@@ -51,12 +51,19 @@ Design of the MagTag means that when the unit is powered from the USB port the o
   </div>
 </div>  
 
-Without a battery, Mu editor together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus permitting an arrangment for a permenantly powered temperature monitor.  
+Without a battery, Mu editor together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus allowing an arrangment for a permenantly powered temperature monitor.  
 
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness and thermal heat soak profile. Where not powered from the USB port and the attachment point moves largely with the environment (room) the impact would be anticipated to somewhat limited, if somewhat slower than the air temperature change.  
 
 For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
+## Calibration
+TBD
+
+## MQQT
+TBD
+
+## Note
 An external temperature (or other) sensor(s) could readily be substituted, via the MagTags data connections if desired.
 
 All information is For Indication only.  
