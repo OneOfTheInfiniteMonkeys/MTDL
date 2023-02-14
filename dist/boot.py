@@ -1,6 +1,6 @@
 """
 # --------------------------------------
-# Project          : MacroPad
+# Project          : MagTag Data Logger
 # Version          : 0.2
 # Date             : 04 Sep 2021
 # Author           : OneOfTheInfiniteMonkeys
@@ -56,6 +56,7 @@ if (sys.implementation.version[0] >= 7):
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-14 - 0.2 - Forked for MagTag Data Logger
 2021-08-18 - 0.2 - Comment format and update only
 2021-08-25 - 0.1 - Github release
 # --------------------------------------
