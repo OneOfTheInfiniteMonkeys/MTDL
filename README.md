@@ -7,7 +7,7 @@ MagTag Temperature Data Logger permits ambient temperature monitoring in the env
   </div>
 </div>  
 
-[![Language](https://img.shields.io/static/v1?label=CircuitPython&message=8.0.0&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
+[![Language](https://img.shields.io/static/v1?label=CircuitPython&message=8.0.2&color=blueviolet&style=flat-square)](https://circuitpython.org/board/adafruit_magtag_2.9_grayscale/)
 [![MagTag](https://img.shields.io/badge/gadget-MagTag-blueviolet.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMTIgMTIgNDAgNDAiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiwxMy40Yy0xMC41LDAtMTksOC41LTE5LDE5YzAsOC40LDUuNSwxNS41LDEzLDE4YzEsMC4yLDEuMy0wLjQsMS4zLTAuOWMwLTAuNSwwLTEuNywwLTMuMiBjLTUuMywxLjEtNi40LTIuNi02LjQtMi42QzIwLDQxLjYsMTguOCw0MSwxOC44LDQxYy0xLjctMS4yLDAuMS0xLjEsMC4xLTEuMWMxLjksMC4xLDIuOSwyLDIuOSwyYzEuNywyLjksNC41LDIuMSw1LjUsMS42IGMwLjItMS4yLDAuNy0yLjEsMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEsMC43LTMuNywyLTUuMWMtMC4yLTAuNS0wLjgtMi40LDAuMi01YzAsMCwxLjYtMC41LDUuMiwyIGMxLjUtMC40LDMuMS0wLjcsNC44LTAuN2MxLjYsMCwzLjMsMC4yLDQuNywwLjdjMy42LTIuNCw1LjItMiw1LjItMmMxLDIuNiwwLjQsNC42LDAuMiw1YzEuMiwxLjMsMiwzLDIsNS4xYzAsNy4zLTQuNSw4LjktOC43LDkuNCBjMC43LDAuNiwxLjMsMS43LDEuMywzLjVjMCwyLjYsMCw0LjYsMCw1LjJjMCwwLjUsMC40LDEuMSwxLjMsMC45YzcuNS0yLjYsMTMtOS43LDEzLTE4LjFDNTEsMjEuOSw0Mi41LDEzLjQsMzIsMTMuNHoiLz48L3N2Zz4%3D&style=flat-square)](https://github.com/adafruit/Adafruit_MagTag_PCBs)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/OneOfTheInfiniteMonkeys/MTDL?&include_prereleases&style=flat-square)
 [![GitHub License](https://img.shields.io/github/license/OneOfTheInfiniteMonkeys/MTDL?style=flat-square)](https://github.com/OneOfTheInfiniteMonkeys/MTMP/blob/main/LICENSE) 
@@ -15,7 +15,7 @@ MagTag Temperature Data Logger permits ambient temperature monitoring in the env
 ![GitHub repo size](https://img.shields.io/github/repo-size/OneOfTheInfiniteMonkeys/MTDL?style=flat-square)
 
 ## Introduction
-The CircuitPython implementation of the MagTag Data Logger is intended to allow ambient e.g. room temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature point needs to be established, perhaps with reference to an existing room sensor (see Calibration section). This operation should only be required once. Where relative temperatures are satisfactory, no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
+The <a href="https://learn.adafruit.com/welcome-to-circuitpython/what-is-circuitpython">CircuitPython</a> implementation of the MagTag Data Logger is intended to allow ambient e.g. room temperature monitoring without need for additional sensing hardware. The software permits logging and on board graphing of the measured temperature. For accurate measurements a reference temperature point needs to be established, perhaps with reference to an existing room sensor (see Calibration section). This operation should only be required once. Where relative temperatures are satisfactory, no calibration is necessary. Other data from a variety of sources could be logged with relatively minor modification.
 
 ## Installation
 Requirements
@@ -27,6 +27,15 @@ Optional
 - <a href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB C cable connection to host computer</a>
 
 Copy the files located in the dist folder to the CIRCUITPY folder of the Adafruit MagTag.  
+There are two setup files:  
+<table>
+  <tr><th>File</th><th>Comment</th></tr>
+  <tr><td>secrets.py</td><td>WiFi and other account specific settings</td></tr>
+  <tr><td>settings.toml</td><td>Calibration and unit specific settings</td></tr>
+</table>
+
+Use of settings.toml is covered below and the comments in the file, details on secrets.py are in the link <a href="https://learn.adafruit.com/electronic-history-of-the-day-with-pyportal/code-walkthrough-secrets-py">here</a>.  
+WiFi or other settings in secrets.py are not required to use the logger, some features can not be used without WiFi access.
 
 Note 
 - The implementation may optionally use WiFi and thus a secrets.py file should typically have any entries, it must be in the CIRCUITPY drive .
@@ -51,7 +60,7 @@ Design of the MagTag means that when the unit is powered from the USB port the o
   </div>
 </div>  
 
-Without a battery, Mu editor and USB services together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus allowing an arrangment for a permenantly powered temperature monitor. Alternatively power can be drawn from a LiPo battery (keeping in mind whilset being charged via the MagTag the PCB warms as shown).
+Without a battery, Mu editor and USB services together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus allowing an arrangment for a permenantly powered temperature monitor. Alternatively power can be drawn from a LiPo battery (keeping in mind whilst being charged via the MagTag the PCB warms as shown). It should be noted that when the LiPo has charged the unit does cool. However, the cycle for recharging the LiPo is not <a href="https://learn.adafruit.com/adafruit-magtag?view=all#power-inputs-3077179">controllable</a> by software and may confuse interpreation of readings as a result.
 
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness and thermal heat soak profile. Where not powered from the USB port and the attachment point moves largely with the environment (room) the impact would be anticipated to somewhat limited, if somewhat slower than the air temperature change.  
 
@@ -69,16 +78,19 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
 From two randomly selected MagTag devices purchased at the same time, the offset difference was found to be ~6 units.
   
 Calibration is performed by adjusting values in the <a href="https://learn.adafruit.com/scrolling-countdown-timer/create-your-settings-toml-file">settings.toml</a> file stored in the root folder of the CIRCUITPY MagTag device.
-The values m1 and c1 are set to 1.0 and 0.0 in the distribution to cause the display to scale to raw sensor units.
+The values m0 and c0 are set to 1.0 and 0.0 respectively in the distribution to cause the display to scale to raw sensor units used in the compensation calculation y = mx + c . Where m is set to m0 and c is set to c1 from the settings.toml file (default values are applied if no settings exist).  
 
 For basic adjustment, if assuming similar performance to the curve shown:  
-  1) Set the value of m0 to 0.9826 from the default of 1.0  
+  1) Set the value of m0 to 0.9826 from the default of 1.0 in the settings.toml file 
   2) Using a charged battery and no USB connection, with the default display sample period of 120 seconds  
-  3) Allow the unit to settle at a fixed reference temperature for one hour  
+  3) Allow the unit to thermally settle at a fixed reference temperature for one hour  
      (The display should update every 2 minutes, a WiFi connection is not required)  
-  4) Edit the value c0 in the settings.toml to offset the reading to the ambient room temperature  
+  4) Edit the value c0 in the settings.toml to offset the reading to the stabilised reference temperature  
+     (e.g if the displayed value is 20 C too low, set c0 to 20.0 in the settings.toml file and reboot the device)
   
-A more through approach might be to arrange to identify the raw 0 temperature or even performe a custom calibration.  
+A more through approach might be to arrange to identify the raw 0 temperature or even perform a custom multi point calibration.  
+To perform a custom calibration, set m0 to 1.0 and c0 = 0.0 in the settings.toml file to cause data display in raw values. These can then be read to create a calibration curve similar to that shown for specific temperature(s). A number of approaches can be taken such as multipoint calibration as desired. In the case of the characteristic shown the reference temperature indication had a resolution of 10 times the nominal raw value increments. Care was exercised to maintain as low a temperature gradient across the device as practicable e.g. in a thermally controlled environment.
+
 
 
 Note 
@@ -87,9 +99,13 @@ The settings.toml file can be accessed by keeping the button D11 next to the USB
 ## Battery Life
 The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 LiPo cell. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
   
-  TBD  
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/LoadedDischargeCurve00.png" width="400px" alt="Adafruit MagTag 120 second loaded battery performance characterisation. (c) 15 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  </div>  
+</div>  
 
-It should be noted that placing the LiPo battery attached to the rear of the MagTag will affect the thermal inertia. The capacity of the LiPo battery impacts the charge time. LiPo battery warnings are set to 3.7 Volts, ~88% new battery terminal voltage. Lower is <a href="https://cdn-shop.adafruit.com/datasheets/785060-2500mAh_specification_sheet.pdf">not recomended</a>. It was found allowing battery terminal voltage to fall lower resulted in excessive charge times.
+It should be noted that placing the LiPo battery attached to the rear of the MagTag will affect the thermal inertia. The capacity of the LiPo battery impacts the charge time. LiPo battery warnings are set to 3.7 Volts, ~88% new battery terminal voltage, lower voltages are <a href="https://cdn-shop.adafruit.com/datasheets/785060-2500mAh_specification_sheet.pdf">not recomended</a>. It was found allowing battery terminal voltage to fall lower also resulted in excessive charge times.
   
 ## MQQT
 Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
