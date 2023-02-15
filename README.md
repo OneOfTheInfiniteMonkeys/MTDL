@@ -55,7 +55,7 @@ Without a battery, Mu editor together with arranging a power on duration to be s
 
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness and thermal heat soak profile. Where not powered from the USB port and the attachment point moves largely with the environment (room) the impact would be anticipated to somewhat limited, if somewhat slower than the air temperature change.  
 
-For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic<a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
+For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic</a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
 ## Calibration
 To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed. Such as polynomials or look up tables. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
@@ -67,6 +67,20 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
 </div>
 
 From two randomly selected MagTag devices purchase at the same time, the offset difference was found to be ~6 units.
+  
+Calibration is performed by adjusting values in the <a href="https://learn.adafruit.com/scrolling-countdown-timer/create-your-settings-toml-file">settings.toml</a> file stored in the root folder of the CIRCUITPY MagTag device.
+The values m1 and o1 are set to 1.0 and 0.0 in the distribution to cause the display to scale to raw sensor units.
+For basic adjustment, if assuming similar performance to the curve shown:  
+  1) Using a charged battery and no USB connection, with the default display sample period of 120 seconds  
+  2) Allow the unit to settle at a fixed reference temperature for one hour   
+     (The display should update every 2 minutes, a WiFi connection is not required) 
+  3) Read the stabilised systems raw value from the display  
+  4) Edit the value o1 in the settings.toml to offset the reading to the room temperature  
+     e.g. if the unit reads 0 at 26.4 C set the value of o1 to -26.4  
+  5) Adjust the value of m1 to 0.9826  
+
+Note 
+The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> and emulated USB memory device etc.
 
 ## MQQT
 Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file.
