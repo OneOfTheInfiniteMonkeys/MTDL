@@ -66,22 +66,31 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
   </div>
 </div>
 
-From two randomly selected MagTag devices purchase at the same time, the offset difference was found to be ~6 units.
+From two randomly selected MagTag devices purchased at the same time, the offset difference was found to be ~6 units.
   
 Calibration is performed by adjusting values in the <a href="https://learn.adafruit.com/scrolling-countdown-timer/create-your-settings-toml-file">settings.toml</a> file stored in the root folder of the CIRCUITPY MagTag device.
-The values m1 and o1 are set to 1.0 and 0.0 in the distribution to cause the display to scale to raw sensor units.
+The values m1 and c1 are set to 1.0 and 0.0 in the distribution to cause the display to scale to raw sensor units.
+
 For basic adjustment, if assuming similar performance to the curve shown:  
   1) Using a charged battery and no USB connection, with the default display sample period of 120 seconds  
-  2) Allow the unit to settle at a fixed reference temperature for one hour   
+  2) Allow the unit to settle at a fixed reference temperature for one hour  
      (The display should update every 2 minutes, a WiFi connection is not required) 
-  3) Read the stabilised systems raw value from the display  
-  4) Edit the value o1 in the settings.toml to offset the reading to the room temperature  
-     e.g. if the unit reads 0 at 26.4 C set the value of o1 to -26.4  
-  5) Adjust the value of m1 to 0.9826  
+  4) Edit the value c1 in the settings.toml to offset the reading to the ambient room temperature  
+  5) Set the value of m1 to 0.9826  
+  
+A more through approach might be to arrange to identify the raw 0 temperature or even performe a custom calibration.  
+
 
 Note 
 The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> and emulated USB memory device etc.
 
+## Battery Life
+The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 LiPo cell. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
+  
+  TBD  
+
+It should be noted that placing the LiPo battery attached to the rear of the MagTag will affect the thermal inertia. The capacity of the LiPo battery impacts the charge time. LiPo battery warnings are set to 3.7 Volts, ~88% new battery terminal voltage. Lower is <a href="https://cdn-shop.adafruit.com/datasheets/785060-2500mAh_specification_sheet.pdf">not recomended</a>. It was found allowing battery terminal voltage to fall lower resulted in excessive charge times.
+  
 ## MQQT
 Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file.
 
