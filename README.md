@@ -97,7 +97,7 @@ Note
 The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> and <a href="https://learn.adafruit.com/customizing-usb-devices-in-circuitpython">emulated USB memory device</a> etc.
 
 ## Battery Life
-The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 LiPo cell. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
+The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 <a href="https://learn.adafruit.com/products/4236/guides">LiPo</a> battery. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
