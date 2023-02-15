@@ -118,6 +118,8 @@ See <a href="https://learn.adafruit.com/mqtt-in-circuitpython">here</a> for more
 An external temperature (or other) sensor(s) channel could readily be substituted, via the MagTags data connections if desired.
   
   
+DSEG14 Font credit https://github.com/keshikan/DSEG Release 7 
+  
 All information is For Indication only.  
 No association, affiliation, recommendation, suitability, fitness for purpose should be assumed or is implied.  
 Registered trademarks are owned by their respective registrants.  
