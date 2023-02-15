@@ -43,7 +43,7 @@ Optional - A <a href="https://www.adafruit.com/product/4236" target="_blank">LiP
 Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
 
 ## Discussion
-Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to be heated. To approximately 32 C with a room ambient of 22 C under typical continuous use conditions with <a href="https://codewith.mu/" target="_blank">Mu editor</a> (even with <a href="https://docs.circuitpython.org/en/latest/shared-bindings/alarm/index.html" target="_blank">sleep modes</a>). This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to the typical heat soak from the ESP32-S2 and voltage regulators and particularly so when charging a battery as is shown here.  
+Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to be heated. To approximately 32 C with a room ambient of 22 C under typical continuous use conditions with <a href="https://codewith.mu/" target="_blank">Mu editor</a> (even with <a href="https://docs.circuitpython.org/en/latest/shared-bindings/alarm/index.html" target="_blank">sleep modes</a>). This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to the typical heat soak from the ESP32-S2 and voltage regulators and particularly so when charging a battery as is shown in the thermal image here.  
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
@@ -58,7 +58,7 @@ Use of magnetic stand off feet to attach the MagTag to a metallic surface will m
 For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic</a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
 ## Calibration
-To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed. Such as polynomials or look up tables. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
+To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed for calibration, such as multi <a href="https://en.wikipedia.org/wiki/Degree_of_a_polynomial">degree (order) polynomials</a> or <a href="https://en.wikipedia.org/wiki/Lookup_table">lookup tables</a>. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
@@ -72,17 +72,17 @@ Calibration is performed by adjusting values in the <a href="https://learn.adafr
 The values m1 and c1 are set to 1.0 and 0.0 in the distribution to cause the display to scale to raw sensor units.
 
 For basic adjustment, if assuming similar performance to the curve shown:  
-  1) Using a charged battery and no USB connection, with the default display sample period of 120 seconds  
-  2) Allow the unit to settle at a fixed reference temperature for one hour  
-     (The display should update every 2 minutes, a WiFi connection is not required) 
-  4) Edit the value c1 in the settings.toml to offset the reading to the ambient room temperature  
-  5) Set the value of m1 to 0.9826  
+  1) Set the value of m0 to 0.9826 from the default of 1.0  
+  2) Using a charged battery and no USB connection, with the default display sample period of 120 seconds  
+  3) Allow the unit to settle at a fixed reference temperature for one hour  
+     (The display should update every 2 minutes, a WiFi connection is not required)  
+  4) Edit the value c0 in the settings.toml to offset the reading to the ambient room temperature  
   
 A more through approach might be to arrange to identify the raw 0 temperature or even performe a custom calibration.  
 
 
 Note 
-The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> and emulated USB memory device etc.
+The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> and <a href="https://learn.adafruit.com/customizing-usb-devices-in-circuitpython">emulated USB memory device</a> etc.
 
 ## Battery Life
 The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 LiPo cell. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
@@ -92,7 +92,9 @@ The curve below is taken from a unit logging at 120 second intervals from a full
 It should be noted that placing the LiPo battery attached to the rear of the MagTag will affect the thermal inertia. The capacity of the LiPo battery impacts the charge time. LiPo battery warnings are set to 3.7 Volts, ~88% new battery terminal voltage. Lower is <a href="https://cdn-shop.adafruit.com/datasheets/785060-2500mAh_specification_sheet.pdf">not recomended</a>. It was found allowing battery terminal voltage to fall lower resulted in excessive charge times.
   
 ## MQQT
-Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file.
+Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
+
+See <a href="https://learn.adafruit.com/mqtt-in-circuitpython">here</a> for more information on MQQT.   
 
 
 
