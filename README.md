@@ -51,7 +51,7 @@ Design of the MagTag means that when the unit is powered from the USB port the o
   </div>
 </div>  
 
-Without a battery, Mu editor together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus allowing an arrangment for a permenantly powered temperature monitor.  
+Without a battery, Mu editor and USB services together with arranging a power on duration to be suitably short and a power off duration to be suffciently long. Permit the unit to maintain its self at an ambient temperature. Thus allowing an arrangment for a permenantly powered temperature monitor. Alternatively power can be drawn from a LiPo battery (keeping in mind whilset being charged via the MagTag the PCB warms as shown).
 
 Use of magnetic stand off feet to attach the MagTag to a metallic surface will modify the devices temperature responsiveness and thermal heat soak profile. Where not powered from the USB port and the attachment point moves largely with the environment (room) the impact would be anticipated to somewhat limited, if somewhat slower than the air temperature change.  
 
