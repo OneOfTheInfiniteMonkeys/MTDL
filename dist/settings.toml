@@ -1,0 +1,11 @@
+#---------------------------------------
+# setting.toml settings file
+# Values in this file are unique to each device
+# Requires CircuitPython 8.0.0 and later
+GUIDStr = "00" #         String,  A unique ID string for this board - digits 0 to 9
+m0 = "1.0" #             float,   0.9826 Internal temperature sensor y=mx+c
+c0 = "0.0" #             float,   26.431 Internal temperature sensor y=mx+c
+Sample_Period = "120" #  Integer, in Seconds for sampling - too low bat runs down and the board heats up
+Graph_Mode = "0" #       Integer, 0=Overwrite, 1=Scroll L-to-R, 2=Scroll R-to-L
+Segment_Shadow = "0" #   Integer, 0 or 1 indicating if Segment shadows are shown
+
