@@ -9,10 +9,10 @@
 # License          : MIT License - See distribution licence details
 #                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
 # Hardware         : Addafruit MagTag
-# CircuitPython    : 7.3 and above (some features req. 8.x) change lib files for 7.3
+# CircuitPython    : 7.3 and above (some features req. 8.x.x) change lib files for 7.3
 # --------------------------------------
 #                  :
-# From             : TBC
+# From             : https://github.com/OneOfTheInfiniteMonkeys/MTDL
 # --------------------------------------
 # Trademarks       : As owned by the respective registrants
 # -------><--------><--------><--------><--------><--------><--------><-------->
@@ -57,13 +57,13 @@ GUIDStr = "00" #                                            A unique ID string f
 Graph_Scroll_N = 0 #                                        When Graph_Mode checks and finds this it will over write
 Graph_Scroll_L = 1 #                                        When Graph_Mode checks and finds this it will scroll to the left
 Graph_Scroll_R = 2 #                                        When Graph_Mode checks and finds this it will scroll to the right
-GR_L = 145 #                                                Graph area left start postion in pixels
+GR_L = 145 #                                                Graph area left start position in pixels
 GR_T = 30 #                                                 Graph area top start position in pixels
 
 # Deep Sleep Memory RAM Locations
-DSM_Dt_Lg_S_Cnt = 4 #                                       Holds how many sample periods have elapased - See Data_Lg_S_Cnt
+DSM_Dt_Lg_S_Cnt = 4 #                                       Holds how many sample periods have elapsed - See Data_Lg_S_Cnt
 DSM_cnt = 5 #                                               Location for current buffer position / counter
-DSM_mx = 6 #                                                Max temperure (with +40 offset)
+DSM_mx = 6 #                                                Max temperature (with +40 offset)
 DSM_mn = 7 #                                                Min temperature (with +40 offset)
 DSM_dts = 8 #                                               Date Time Status of last poll of (pseudo) time server
 S_Mem_Offset = 10 #                                         Sleep memory Buffer start offset from zero
@@ -79,7 +79,7 @@ Segment_Shadow = 1 #                                        0 or 1 indicating if
 
 ICO_Path = "/ico/" #                                        Icon locations
 
-# Initiliase variables
+# Initialise variables
 yfi = 0 #                                                   Is WiFi available
 mqt = 0 #                                                   Did mqqt complete
 cbv = 0 #                                                   Current battery voltage
@@ -215,7 +215,7 @@ try:
     # Setup a feed for publishing
     unameStr = secrets["aio_username"] #                           Read once
     mtdl_fd_tmp = unameStr + "/feeds/mtdl-tmp-" + GUIDStr # Associate username and feed name for temperature
-    mtdl_fd_cbv = unameStr + "/feeds/mtdl-cbv-" + GUIDStr # Associate username and feedname for battery voltage
+    mtdl_fd_cbv = unameStr + "/feeds/mtdl-cbv-" + GUIDStr # Associate username and feed name for battery voltage
     # Create a socket pool
     pool = socketpool.SocketPool(wifi.radio)
 
@@ -265,10 +265,10 @@ if not alarm.wake_alarm:
         alarm.sleep_memory[DSM_cnt] = 0 #                   Logger memory position count
         alarm.sleep_memory[DSM_mx] = 0 #                    Maximum logged value
         alarm.sleep_memory[DSM_mn] = 99 #                   Minimum logged value
-        alarm.sleep_memory[DSM_dts] = 0 #                   Date Time Status of synchronisation (udated at logger frequency)
+        alarm.sleep_memory[DSM_dts] = 0 #                   Date Time Status of synchronisation (updated at logger frequency)
         for i in range(0, Max_Samples -1): #                Only clear buffer if user requested
             # wr_buf(i, 20 ) #                              Simulate buffer full for testing
-            wr_buf(i, (-1 * BF_OSV))  #                     Initialise buffer with minmum possible values
+            wr_buf(i, (-1 * BF_OSV))  #                     Initialise buffer with minimum possible values
 
     magtag.remove_all_text() #                              (Secret magic) method to remove text setups ;-)
 
@@ -456,7 +456,7 @@ magtag.add_text( #                                          Place holder Units
     text_scale = 1 #                                        1 = small
 )
 
-magtag.add_text( #                                          Staus bar text format
+magtag.add_text( #                                          Status bar text format
     text_position=( #                                       Bottom of screen
         30, #                                               X position
         121, #                                              Y position
@@ -539,6 +539,10 @@ alarm.exit_and_deep_sleep_until_alarms(time_alarm)
 # --------------------------------------
 #
 # --------------------------------------
+
+2023-02-16 -
+             Unsupported Beta release
+             
 2023-02-07 -
              Added wipe log history prompt on non deep sleep wake_alarm
              Added publish cbv (Current Battery Voltage to mqqt feed to allow remote battery monitoring
