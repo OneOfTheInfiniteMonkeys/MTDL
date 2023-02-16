@@ -31,7 +31,7 @@ There are two setup files:
 <table>
   <tr><th>File</th><th>Comment</th></tr>
   <tr><td>secrets.py</td><td>WiFi and other account specific settings</td></tr>
-  <tr><td>settings.toml</td><td>Calibration and unit specific settings</td></tr>
+  <tr><td>settings.toml</td><td>Unit specific settings i.e. Calibration, identifiers, options</td></tr>
 </table>
 
 Use of settings.toml is covered below and the comments in the file, details on secrets.py are in the link <a href="https://learn.adafruit.com/electronic-history-of-the-day-with-pyportal/code-walkthrough-secrets-py">here</a>.  
