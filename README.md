@@ -1,4 +1,4 @@
-# MagTag Data Logger (MTDL) - {Pre-Release}
+# MTDL (MagTag Data Logger) - {Pre-Release}
 MagTag Temperature Data Logger is a CircuitPython data logger that permits ambient temperature monitoring in the environment of the device using an internal sensor on the MagTags PCB (other data could readily be logged). With minimal calibration, obviates the need for additional external hardware. Typically 1 C resolution, ±1 C accuracy, ~0.35 C / minute for a 5 C step change, range -20 to +60 C. Based on Adafruit example code. Additional features include Segment numeric indicator and data graphing on the e-ink display of the <a href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a> device.
 
 <div align="center">
