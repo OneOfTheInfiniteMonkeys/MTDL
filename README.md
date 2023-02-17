@@ -112,7 +112,12 @@ Two <a href="https://en.wikipedia.org/wiki/MQTT">MQQT <a> streams are published 
 
 See <a href="https://learn.adafruit.com/mqtt-in-circuitpython">here</a> for more information on MQQT.   
 
-
+## Basic Features
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Data-Logger-Basic-Features-00.png" width="960px" alt="Adafruit MagTag Data Logger Basic Features. (c) 17 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  </div>  
+</div>  
 
 ## Note
 An external temperature (or other) sensor(s) channel could readily be substituted, via the MagTags data connections if desired.
