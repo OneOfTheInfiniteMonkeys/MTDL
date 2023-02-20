@@ -2,14 +2,14 @@
 # --------------------------------------
 # Project          : Logger
 # Version          : 0.1
-# Date             : 06 Feb 2023
+# Date             : 16 Feb 2023
 # Author           : OneOfTheInfiniteMonkeys
 # Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
 # Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTMP
 # License          : MIT License - See distribution licence details
 #                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
 # Hardware         : Addafruit MagTag
-# CircuitPython    : 7.3 and above (some features req. 8.x.x) change lib files for 7.3
+# CircuitPython    : 8.0.x
 # --------------------------------------
 #                  :
 # From             : https://github.com/OneOfTheInfiniteMonkeys/MTDL
@@ -28,7 +28,7 @@
 import time #                                               For Alarm functions and watchdog
 import board #                                              For Alarm functions
 import alarm #                                              For Alarm functions
-import os
+import os #                                                 Environment acccess
 import helper as hlp  #                                     Helper routines
 import adafruit_lis3dh #                                    Temperature / Vibe sensor access
 from adafruit_magtag.magtag import MagTag
@@ -37,23 +37,25 @@ import adafruit_minimqtt.adafruit_minimqtt as MQTT #        For posting data to 
 import ssl #                                                mqqt access - Secure Socket Layer to secure data transfer
 import socketpool #                                         mqqt access - TCP/IP socket management for mqqt data tfr
 import wifi #                                               mqqt access - WiFi access for mqqt conversation
+import ipaddress #                                          Allows for optional (and lower power) static ip address
 from secrets import secrets #                               Access the secrets.py
 
 import microcontroller #                                    For watchdog timer
 import watchdog #                                           For watchdog timer
 
 #---------------------------------------
-# Initilise defaults
+# Initialise defaults
 m0 =  0.9826 #                                              Correction factor for LIS3DH I.C. in Deg.C
 c0 =  26.431 #                                              Correction factor for LIS3DH I.C. in Deg.C
 Data_Lg_S_Cnt = 5 #                                         >=1 : Count of Display Update periods before entering data into log
 Dis_Upd_Prd = 120 #                                         >=5 : Update the display (seconds) every two minutes
+UseWiFiServices = 1 #                                       Integer 0 or 1, Indicates is WiFi services should be used
 
 AppName = "MTDL"  #                                         Application name string - Shown at top of display
 MsgVerStr = "0.1"  #                                        Version displayed and reported by the software
 GUIDStr = "00" #                                            A unique ID string for this board - digits 0 to 9
 
-# Initilise default constants
+# Initialise default constants
 Graph_Scroll_N = 0 #                                        When Graph_Mode checks and finds this it will over write
 Graph_Scroll_L = 1 #                                        When Graph_Mode checks and finds this it will scroll to the left
 Graph_Scroll_R = 2 #                                        When Graph_Mode checks and finds this it will scroll to the right
@@ -68,16 +70,22 @@ DSM_mn = 7 #                                                Min temperature (wit
 DSM_dts = 8 #                                               Date Time Status of last poll of (pseudo) time server
 S_Mem_Offset = 10 #                                         Sleep memory Buffer start offset from zero
 
-Max_Samples = 144 #                                         Long term sample buffer size
+Max_Samples = 144 #                                         Long term sample buffer size for graph, nominally 1 day @ 1 sample per 10 minutes
 BF_OSV = 50 #                                               Buffer Value Offset for data stored in buffer to obviate negative numbers handling - positive value
 BF_max_val = 60 #                                           Maximum value to store in Log buffer
 BF_min_val = (-1 * BF_OSV) #                                Minimum value to store in Log buffer
 
 # General Display
 Graph_Mode = Graph_Scroll_R #                               See Graph_Scroll constants for behaviours
-Segment_Shadow = 1 #                                        0 or 1 indicating if Segment shadows are shown
+Segment_Shadow = 1 #                                        Integer 0 or 1 indicating if Segment shadows are shown
 
 ICO_Path = "/ico/" #                                        Icon locations
+
+# Nwtwork defaults - Minimum requirement if used is to set address and subnet
+ipv4_address = "" #                                         IPv4 address
+ipv4_subnet = "" #                                          IPv4 Subnet typically 255.255.255.0
+ipv4_gateway = "" #                                         IPv4 Gateway or router address on a home network
+ipv4_dns = "" #                                             IPv4 DNS server, usually the router address on a home network
 
 # Initialise variables
 yfi = 0 #                                                   Is WiFi available
@@ -88,7 +96,7 @@ cbv = 0 #                                                   Current battery volt
 # Read temperature sensor located in the accelerometer LIS3DH I.C.
 # Do this soon after booting to reduce influence of potential board thermals
 # A MagTag connected to USB results in a heated PCB and heated LIS3DH I.C.
-# The temperature appears to have an offset
+# The temperature appears to have an offset between different units
 def rd_accel_tmp():
     # set up accelerometer to get temperature
     i2c = board.I2C()  # uses board.SCL and board.SDA
@@ -106,19 +114,19 @@ def rd_accel_tmp():
 
     dl = (lis._read_register_byte(0x0c)) #                  Low
     dh = (lis._read_register_byte(0x0d)) #                  High
-    print ("raw rdg" + str (dh) + " " + str(dl))
+    # print ("raw rdg" + str (dh) + " " + str(dl)) #        Debug value obtained
     return tc_to_nm(dh, dl) # return the temperature from the converted register values
 #-------------------
 
 #---------------------------------------
 # Convert 2's complement to number from two bytes dh and dl
 def tc_to_nm(dh, dl):
-    nb = dh
-    if (nb & 0x80) == 0:
+    nb = dh #                                               For this usage date only in dh, drop dl
+    if (nb & 0x80) == 0: #                                  Is msb set - if not, no conversion
        # Positive
        pass
     else:
-       nb = ~(nb - 0xFF) * (-1)
+       nb = ~(nb - 0xFF) * (-1) #                           msb was set, convert
     return nb
 #-------------------
 
@@ -129,8 +137,8 @@ def tc_to_nm(dh, dl):
 # returns an integer
 def linearise(num):
   linerise = float(float(m0) * float(num)) + float(c0)
-  return int(linerise)
-  
+  return int(round(linerise,0)) # Don't overstate the accuracy or precision
+
 #---------------------------------------
 # Read a value from the buffer and apply (Scaling, Limits, Offsets and Transfer Function as needed)
 # Externally, buffer is assumed to be from 0 to maximum and location identified as i
@@ -175,23 +183,26 @@ def get_ev(nameStr, minv, maxv, defStr):
 # -------><--------><--------><--------><--------><--------><--------><-------->
 # Main code
 num = rd_accel_tmp() #                                      Get temperature ready for later processing
-print ("raw num " + str(num) )
+# print ("raw num " + str(num) ) #                          Debug output
 
 magtag = MagTag() #                                         Access to the MagTag Object
 cbv = magtag.peripherals.battery  #                         Read Current Battery Voltage as soon as reasonable - Possible improvement - See issue #6246
 
 # Over ride internal settings with settings from settings.toml
 m0 = get_ev("m0", -30, 30, m0) #          Get user set Temperature calibration value if available
-print ("m0 " + str(m0))
 c0 = get_ev("c0", -30, 30, c0) #          Get user set Temperature calibration value if available
-print ("c0 " + str(c0))
 GUIDStr = get_ev("GUIDStr", 0, 0, "00") #                   A unique ID string for this board - digits 0 to 9
 Segment_Shadow = get_ev("Segment_Shadow", 0, 1, 0) #        Users segment shadow preference
-Dis_Upd_Prd = int(get_ev("Sample_Period", 0, 600, 0)) #   Sample rate for display update
-print ("DUPd " + str(Dis_Upd_Prd))
+Dis_Upd_Prd = int(get_ev("Sample_Period", 0, 600, 0)) #     Sample rate for display update
+UseWiFiServices = get_ev("UseWiFiServices", 0, 1, 1) #      Are WiFi services to be used
+if UseWiFiServices: #                                       Only get these if WiFi services in use
+    ipv4_address = get_ev("ipv4_address", 0, 0, "") #       Double check your settings - No checking is done on these
+    ipv4_subnet = get_ev("ipv4_subnet", 0, 0, "")
+    ipv4_gateway = get_ev("ipv4_gateway", 0, 0, "")
+    ipv4_dns = get_ev("ipv4_dns", 0, 0, "")
+
 # Process the earlier collected temperature
-num = linearise(num)  #                                     Apply Calibration factor to previously read value
-print ("lnd num " + str(num) )
+num = linearise(num)  #                                     Apply Calibration factors to previously read raw value
 
 #-------------------
 # WiFi and network may cause unanticipated delays - allow recovery and prevent battery exhaustion
@@ -207,13 +218,15 @@ wdt.timeout = 60 #                                          Watchdog timeout - w
 #-------------------
 # MQQT support
 # Connect
-yfi=0 #                                                         Clear WiFi status
-mqt=0 #                                                         clear mqqt status
+yfi = 0 #                                                   Clear WiFi status
+mqt = 0 #                                                   Clear mqqt status
 try:
+    if (ipv4_address > "") and (ipv4_subnet > ""): #        Pre-assigned ip addresses
+        wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address(ipv4_address), netmask=ipaddress.IPv4Address(ipv4_subnet), gateway=ipaddress.IPv4Address(ipv4_gateway), ipv4_dns=ipaddress.IPv4Address(ipv4_dns))
     wifi.radio.connect(secrets["ssid"], secrets["password"])
-    yfi = 1 #                                                      WiFi completed
+    yfi = 1 #                                               WiFi completed
     # Setup a feed for publishing
-    unameStr = secrets["aio_username"] #                           Read once
+    unameStr = secrets["aio_username"] #                    Read once
     mtdl_fd_tmp = unameStr + "/feeds/mtdl-tmp-" + GUIDStr # Associate username and feed name for temperature
     mtdl_fd_cbv = unameStr + "/feeds/mtdl-cbv-" + GUIDStr # Associate username and feed name for battery voltage
     # Create a socket pool
@@ -230,7 +243,7 @@ try:
     )
     # Connect the client to the MQTT broker.
     mqtt_client.connect()
-    mqt = 1 #                                                       mqqt was established - set status
+    mqt = 1 #                                               mqqt was established - set status
     mqtt_client.publish(mtdl_fd_tmp, num)
     mqtt_client.publish(mtdl_fd_cbv, cbv)
     try:
@@ -240,13 +253,14 @@ try:
     except:
         print (AppName + " - Acquire time issue")
 
-    unameStr = "" #                                                    No longer required
+    wifi.radio.ebabled(false) #                             Powerdown WiFi
+    unameStr = "" #                                         No longer required
 except:
     pass
 
 
-print (AppName + " - Wake cause " + str(alarm.wake_alarm))
-if not alarm.wake_alarm:
+# print (AppName + " - Wake cause " + str(alarm.wake_alarm)) # debug output of wake cause
+if not alarm.wake_alarm: #                                  Allow wipe of legacy data
     PonText = magtag.add_text(
         text_position=( #                                   Name - Top of Screen
             0, #                                            X position
@@ -256,12 +270,12 @@ if not alarm.wake_alarm:
         text_color = 0x000000, #                            Deepest darkest black font
         text_wrap = 20, #                                   Auto text wrapping
         #     123456789012345678901234567890123456789012345678901234567890
-        text=" MagTag Data Logger  Erase previous log?  Yes  (3s timeout) ", # With default text will auto display
-        text_scale=1, #                                     1 = small
+        text = " MagTag Data Logger  Erase previous log?  Yes  (3s timeout) ", # With default text will auto display
+        text_scale = 1, #                                   1 = small
     )
     if (hlp.pause_or_press(magtag, 6) == 1): #              User selected yes button
         # Initialise deep sleep RAM values if needed
-        print (AppName + " - Reset Request") #              User selection activated
+        # print (AppName + " - Reset Request") #            Debug ouput - User selection activated
         alarm.sleep_memory[DSM_cnt] = 0 #                   Logger memory position count
         alarm.sleep_memory[DSM_mx] = 0 #                    Maximum logged value
         alarm.sleep_memory[DSM_mn] = 99 #                   Minimum logged value
@@ -280,10 +294,10 @@ elif (num > BF_max_val):
 
 cnt = alarm.sleep_memory[DSM_cnt] #                         Get current buffer location / count from Deep Sleep Memory
 alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] += 1 #                  Increment the wake ups until data is logged count in Deep Sleep Memory
-print (AppName + " " + str(alarm.sleep_memory[DSM_Dt_Lg_S_Cnt]))
+# print (AppName + " " + str(alarm.sleep_memory[DSM_Dt_Lg_S_Cnt])) # Debug output
 if (alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] >= Data_Lg_S_Cnt): # Do we need to update the Log buffer
     alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] = 0 #               Reset the Data Log Sample Counter
-    alarm.sleep_memory[DSM_cnt] = (alarm.sleep_memory[DSM_cnt] + 1) % (Max_Samples -1) # Increment the current count / buffer location 
+    alarm.sleep_memory[DSM_cnt] = (alarm.sleep_memory[DSM_cnt] + 1) % (Max_Samples -1) # Increment the current count / buffer location
     # alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] += 1  #                  Increment Data Log Sample Counter held in Deep Sleep Memory
 
     if (Graph_Mode == Graph_Scroll_N):
@@ -306,6 +320,8 @@ if (alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] >= Data_Lg_S_Cnt): # Do we need to updat
     yfi=0 #                                                 Clear WiFi status
     mqt=0 #                                                 Clear mqqt status
     try:
+        if (ipv4_address > "") and (ipv4_subnet > ""): #    Pre-assigned ip addresses
+            wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address(ipv4_address), netmask=ipaddress.IPv4Address(ipv4_subnet), gateway=ipaddress.IPv4Address(ipv4_gateway), ipv4_dns=ipaddress.IPv4Address(ipv4_dns))
         wifi.radio.connect(secrets["ssid"], secrets["password"])
         yfi=1 #                                             Set WiFi status
         # Setup a feed for publishing
@@ -326,16 +342,17 @@ if (alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] >= Data_Lg_S_Cnt): # Do we need to updat
         )
         # Connect the client to the MQTT broker.
         mqtt_client.connect()
-        mqt=1 #                                            Set mqqt status
+        mqt=1 #                                             Set mqqt status
         mqtt_client.publish(mtdl_fd_tmp, num)
         mqtt_client.publish(mtdl_fd_cbl, cbv)
-        unameStr="" #                                      No longer needed
+        unameStr="" #                                       No longer needed
         try:
             alarm.sleep_memory[DSM_dts] = 0
-            magtag.get_local_time() #                           Sync local clock with Adafruit io web time system - needs wifi
+            magtag.get_local_time() #                       Sync local clock with Adafruit io web time system - needs wifi
             alarm.sleep_memory[DSM_dts] = 1
         except:
             print (AppName + " - Acquire time issue")
+        wifi.radio.ebabled(false) #                             Powerdown WiFi
     except:
         pass
 
@@ -362,8 +379,12 @@ if (cnt == Max_Samples):
 cbl = hlp.Current_Battery_Level(cbv)  #                     Rank Current Battery Level for this run
 #-------------------
 # Icon display setup
-hlp.load_vlt_icon(cbl, magtag)  #                           Show battery level icon
-hlp.load_small_icon("16x16-usbicon01.bmp", 2, magtag) #     USB Icon - Poss reflect cdc status
+hlp.load_vlt_icon(cbl, magtag)  #                               Show battery level icon
+if hlp.USB_Connected():
+    hlp.load_small_icon("16x16-usbicon01.bmp", 2, magtag) #     USB Icon - On - Connected
+else:
+    hlp.load_small_icon("16x16-usbicon02.bmp", 2, magtag) #     USB Icon - Off - Disconnect
+
 if (yfi == 1): #                                                Assessed WiFi OK
     hlp.load_small_icon("16x16-routicon01.bmp", 42, magtag) #   WiFi router
     # Potential to use actual rssi - takes time and power - simplified
@@ -539,19 +560,31 @@ alarm.exit_and_deep_sleep_until_alarms(time_alarm)
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-19 -
+             Support for pre-assigned IP addreses for speed & power reduction
+
+2023-02-18 -
+             Added USB detection and indication on Tool bar
+             Additional code comments
+             Reduce debug code printing
+             Added wifi.radio.ebabled(false) to reduce power consumption
 
 2023-02-16 -
              Unsupported Beta release
-             
+             No further back testing will be performed on pre CircuitPython 8.x.x comments amended
+             Applied round to improve linearise function also prepares for future averaging or over sampling
+             Removed some print to console items used during development
+             Added UseWiFiServices swtich to permit lower power consumtion
+
 2023-02-07 -
              Added wipe log history prompt on non deep sleep wake_alarm
-             Added publish cbv (Current Battery Voltage to mqqt feed to allow remote battery monitoring
+             Added publish cbv (Current Battery Voltage to MQQT feed to allow remote battery monitoring
              Added watchdog to handle errant WiFi or other network related issues - Code of last resort
              REPL messages now use AppName to assist identifying App reporting out to REPL
 
 2023-02-05 -
-             Added mqqt
-             Modified for independant display and log upates
+             Added MQQT
+             Modified for independent display and log updates
              Adjusted segment display for right justification
 
 2023-02-03 - Font Conversion
