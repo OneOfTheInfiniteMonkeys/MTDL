@@ -88,7 +88,7 @@ For basic adjustment, if assuming similar performance to the curve shown:
   4) Edit the value c0 in the settings.toml to offset the reading to the stabilised reference temperature  
      (e.g if the displayed value is 20 C too low, set c0 to 20.0 in the settings.toml file and reboot the device)
   
-A more through approach might be to arrange to identify the raw 0 temperature or even perform a custom multi point calibration.  
+A more rigorous approach might be to arrange to identify the raw 0 temperature or even perform a custom multi point calibration.  
 To perform a custom calibration, set m0 to 1.0 and c0 = 0.0 in the settings.toml file to cause data display in raw values. These can then be read to create a calibration curve similar to that shown for specific temperature(s). A number of approaches can be taken such as multipoint calibration as desired. In the case of the characteristic shown the reference temperature indication had a resolution of 10 times the nominal raw value increments. Care was exercised to maintain as low a temperature gradient across the device as practicable e.g. in a thermally controlled environment.
 
 
