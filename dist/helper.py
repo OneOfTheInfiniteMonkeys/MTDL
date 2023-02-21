@@ -1,8 +1,8 @@
 """><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><-->
 # --------------------------------------
 # Project          : MacroPad
-# Version          : 0.6
-# Date             : 05 Feb 2023
+# Version          : 0.8
+# Date             : 20 Feb 2023
 # Author           : OneOfTheInfiniteMonkeys
 # Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
 # Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTMP
@@ -30,6 +30,7 @@ import displayio                         # For bitmap image display
 import adafruit_imageload                # Support for bitmap image loading of icons
 import sys                               # System version information
 import os                                # Allow access to board id, Circuitpython version
+import supervisor                        # Allows detection of USB connected state
 from adafruit_magtag.magtag import MagTag # Wrapper for lower level board features - Network Graphics Peripherals
 #
 # --------------------------------------
@@ -54,6 +55,7 @@ from adafruit_magtag.magtag import MagTag # Wrapper for lower level board featur
 # current_battery_level(sv)
 # deepsleepmode(magtag, mt_idx)
 # hh_mm(time_struct, twelve_hour)
+# USB_connected()
 # --------------------------------------
 
 # --------------------------------------
@@ -371,28 +373,28 @@ def Current_Battery_Level(sv):
     # Assign a battery level to the voltage
     # Returns an integer  level classification
     # e.g. for battery icon selection
-    # Approximation for the PKCELL 500 mAh battery
+    # Levels adjusted for 2000 mAh cell characterisation
     # sv = System Voltage
     # bl = Battery Level
     # 4.20 Volts a battery is charged - 4.30 volts no battery fitted
     # --------------------------------------
     """
-    if (sv >= 4.2):
+    if (sv >= 4.25):
         bl = 6
-    if (sv < 4.2):
+    if (sv < 4.18):
         bl = 5
-    if (sv < 4.10):
+    if (sv < 4.04):
         bl = 4
-    if (sv < 3.90):
+    if (sv < 4.00):
         bl = 3
-    if (sv < 3.81):
+    if (sv < 3.90):
         bl = 2
-    if (sv < 3.74):
+    if (sv < 3.83):
         bl = 1
-    if (sv < 3.71):
+    if (sv < 3.72):
         bl = 0
-    print("System voltage     :" + "{:.1f}".format(sv) +
-          " Volts " + " Bat. Level " + str(bl))
+    # print("System voltage     :" + "{:.1f}".format(sv) +
+    #      " Volts " + " Bat. Level " + str(bl))
     return int(bl)                           # Return the assessed battery level
 # ------------------------------------------------------------------------------
 
@@ -481,6 +483,11 @@ def hh_mm(time_struct, twelve_hour=True):
     return hour_string + ':{mm:02d}'.format(mm=time_struct.tm_min) + postfix
 # ------------------------------------------------------------------------------
 
+def USB_Connected():
+    # Needs import supervisor - first use CP 8.0.1
+    # Returns True or False
+    return supervisor.runtime.usb_connected
+
 # --------------------------------------
 #
 # --------------------------------------
@@ -490,6 +497,13 @@ def hh_mm(time_struct, twelve_hour=True):
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-21 - 0.8
+             Upated battery voltage indication levels based on characterised Battery Discharge Curve
+
+2023-02-16 - 0.7
+             Added USB_Connected
+             Reduced debug print output text
+
 2023-02-03 - 0.6
              load_small_icon modified:
                Status bar icons moved to /ico/ folder
