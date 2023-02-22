@@ -1,14 +1,14 @@
 """><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><-->
 # --------------------------------------
 # Project          : MacroPad
-# Version          : 0.8
+# Version          : 0.9
 # Date             : 20 Feb 2023
 # Author           : OneOfTheInfiniteMonkeys
 # Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
 # Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTMP
 # License          : MIT License - See distribution licence details
 #                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
-# Hardware         : Addafruit MagTag
+# Hardware         : Adafruit MagTag
 # --------------------------------------
 #                  :
 # From             : Various and new code
@@ -29,7 +29,7 @@ import time                              # access sleep function
 import displayio                         # For bitmap image display
 import adafruit_imageload                # Support for bitmap image loading of icons
 import sys                               # System version information
-import os                                # Allow access to board id, Circuitpython version
+import os                                # Allow access to board id, CircuitPython version
 import supervisor                        # Allows detection of USB connected state
 from adafruit_magtag.magtag import MagTag # Wrapper for lower level board features - Network Graphics Peripherals
 #
@@ -80,7 +80,7 @@ LOW_YELLOW = 0x020200
 def interpreter_ver():
     """
     # --------------------------------------
-    # Return CirctuitPython interpreter version as a string with decimal seperators
+    # Return CirctuitPython interpreter version as a string with decimal separators
     # --------------------------------------
     """
     return ".".join(map(str, sys.implementation[1]))
@@ -156,7 +156,7 @@ def count_neopixel(sel_mode, ldclr, lbl, magtag):
     # --------------------------------------
     # Set the LED's at the top of the MagTag to show the binary value of the
     # integer parameter sel_mode. The range is 0 to 0x0F or 16 decimal
-    # Accomodates LED numbering from right to left
+    # Accommodates LED numbering from right to left
     # 3 parameters:
     #   sel_mode - integer, range 0 to 0x0F or 16 decimal
     #   ldclr    - integer, range 0x000001 to 0x0F0000
@@ -166,7 +166,7 @@ def count_neopixel(sel_mode, ldclr, lbl, magtag):
     if (ldclr == 0):
         ldclr = 0x000800  # Default to green where no colour selected
     if (ldclr > 0x0F0000):
-        ldclr = 0x0F0000  # Accomodate colour and light level boost feature
+        ldclr = 0x0F0000  # Accommodate colour and light level boost feature
     if (lbl < 1):
         lbl = 1    # Always have at least some boost so as not to multiply by 0
     if (sel_mode > 0):  #  Don't write a colour if sel_mode is zero
@@ -266,7 +266,7 @@ def light_boost_level_factor(LightLevel):
     # such that RGB 00 00 08 becomes RGB 00 00 10 when multiplied by 2
     # Note:
     #   Values shown above in hex
-    #   The boost points are empiricaly selected
+    #   The boost points are empirically selected
     """
     # bl = Boost Level
     bl = 1
@@ -301,7 +301,7 @@ def pause_or_press(magtag, delay_period):
     # --------------------------------------
     # Pauses unless key pressed returns key pressed value
     # Flashing one of the NEOPIXEL LED's
-    # The delay period shold be at least 1 second
+    # The delay period should be at least 1 second
     """
     # Allow the user chance to press any button on the front of the MagTag
     i = 0                                                     # Loop counter
@@ -362,7 +362,7 @@ def battery_check(sv, lpsp, mt_idx, magtag):
         magtag.graphics.set_background("/bmps/magtag-pl-01.bmp")  # Show a Power on graphic - battery empty
         magtag.set_text("Recharge now!     " + "{:.2f}".format(sv) + " Volts", mt_idx, auto_refresh=True )
         d = while_display_busy(3)                                 # Allow display to complete update
-        magtag.exit_and_deep_sleep(lpsp)                          # Basiclly don't wake again - well ~ 1 month
+        magtag.exit_and_deep_sleep(lpsp)                          # Basically don't wake again - well ~ 1 month
     return
 # ------------------------------------------------------------------------------
 
@@ -381,7 +381,7 @@ def Current_Battery_Level(sv):
     """
     if (sv >= 4.25):
         bl = 6
-    if (sv < 4.18):
+    if (sv < 4.25):
         bl = 5
     if (sv < 4.04):
         bl = 4
@@ -459,7 +459,7 @@ def deepsleepmode(LBL, mt_idx, magtag):
     AboutTxt =""  #                                             Manage memory space
     d = while_display_busy(3)  #                                Allow display to complete update
     magtag.peripherals.neopixels[0] = BLACK  #                  No lights - Not sending key presses
-    magtag.exit_and_deep_sleep(2678400)  #                      Basiclly don't wake again - well ~ 1 month
+    magtag.exit_and_deep_sleep(2678400)  #                      Basically don't wake again - well ~ 1 month
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -497,8 +497,12 @@ def USB_Connected():
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-22 - 0.9
+             Typo corrections
+             Battery voltage level assessment issue correction
+             
 2023-02-21 - 0.8
-             Upated battery voltage indication levels based on characterised Battery Discharge Curve
+             Updated battery voltage indication levels based on characterised Battery Discharge Curve
 
 2023-02-16 - 0.7
              Added USB_Connected
