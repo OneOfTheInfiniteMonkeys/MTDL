@@ -8,7 +8,7 @@
 # Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTMP
 # License          : MIT License - See distribution licence details
 #                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
-# Hardware         : Addafruit MagTag
+# Hardware         : Adafruit MagTag
 # CircuitPython    : 8.0.x
 # --------------------------------------
 #                  :
@@ -28,15 +28,15 @@
 import time #                                               For Alarm functions and watchdog
 import board #                                              For Alarm functions
 import alarm #                                              For Alarm functions
-import os #                                                 Environment acccess
+import os #                                                 Environment access
 import helper as hlp  #                                     Helper routines
 import adafruit_lis3dh #                                    Temperature / Vibe sensor access
 from adafruit_magtag.magtag import MagTag
 from adafruit_display_shapes.line import Line #             Line drawing library
 import adafruit_minimqtt.adafruit_minimqtt as MQTT #        For posting data to the web
-import ssl #                                                mqqt access - Secure Socket Layer to secure data transfer
-import socketpool #                                         mqqt access - TCP/IP socket management for mqqt data tfr
-import wifi #                                               mqqt access - WiFi access for mqqt conversation
+import ssl #                                                MQQT access - Secure Socket Layer to secure data transfer
+import socketpool #                                         MQQT access - TCP/IP socket management for MQQT data tfr
+import wifi #                                               MQQT access - WiFi access for MQQT conversation
 import ipaddress #                                          Allows for optional (and lower power) static ip address
 from secrets import secrets #                               Access the secrets.py
 
@@ -89,7 +89,7 @@ ipv4_dns = "" #                                             IPv4 DNS server, usu
 
 # Initialise variables
 yfi = 0 #                                                   Is WiFi available
-mqt = 0 #                                                   Did mqqt complete
+mqt = 0 #                                                   Did MQQT complete
 cbv = 0 #                                                   Current battery voltage
 
 #---------------------------------------
@@ -102,7 +102,7 @@ def rd_accel_tmp():
     i2c = board.I2C()  # uses board.SCL and board.SDA
     lis = adafruit_lis3dh.LIS3DH_I2C(i2c, address=0x19)
 
-    #lis._write_register_byte(0x20, 0x20) #                 low power mode with ODR = 10Hz - XYZ Accel Off
+    #lis._write_register_byte(0x20, 0x20) #                 low power mode with ODR = 10Hz - XYZ Accel. Off
     #lis._write_register_byte(0x24, 0x80) #                 CTRL_REG5
 
     lis._write_register_byte(0x23, 0x80)  #                 FS = ±2g low power mode with BDU bit enabled
@@ -168,16 +168,16 @@ def wr_buf(i, nmber):
 # requires access to os library
 def get_ev(nameStr, minv, maxv, defStr):
     try:
-        x = os.getenv(nameStr) #                  Release 8.0.0 and above
-        if (float(minv) < float(maxv)): #         For numeric values check if min max are different
+        x = os.getenv(nameStr) #                            Release 8.0.0 and above
+        if (float(minv) < float(maxv)): #                   For numeric values check if min max are different
             if (float(x) <float(maxv)) and (float(x) > float(minv)):
-                return x #                        Numeric value within range - return value read in
+                return x #                                  Numeric value within range - return value read in
             else:
-                return defStr #                   Value outside permitted range - return default value
+                return defStr #                             Value outside permitted range - return default value
         else:
-            return x #                            No min max checking - return value located
+            return x #                                      No min max checking - return value located
     except:
-        return defStr #                           Issue detected - return default value
+        return defStr #                                     Issue detected - return default value
 #-------------------
 
 # -------><--------><--------><--------><--------><--------><--------><-------->
@@ -219,7 +219,7 @@ wdt.timeout = 60 #                                          Watchdog timeout - w
 # MQQT support
 # Connect
 yfi = 0 #                                                   Clear WiFi status
-mqt = 0 #                                                   Clear mqqt status
+mqt = 0 #                                                   Clear MQQT status
 try:
     if (ipv4_address > "") and (ipv4_subnet > ""): #        Pre-assigned ip addresses
         wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address(ipv4_address), netmask=ipaddress.IPv4Address(ipv4_subnet), gateway=ipaddress.IPv4Address(ipv4_gateway), ipv4_dns=ipaddress.IPv4Address(ipv4_dns))
@@ -243,12 +243,12 @@ try:
     )
     # Connect the client to the MQTT broker.
     mqtt_client.connect()
-    mqt = 1 #                                               mqqt was established - set status
+    mqt = 1 #                                               MQQT was established - set status
     mqtt_client.publish(mtdl_fd_tmp, num)
     mqtt_client.publish(mtdl_fd_cbv, cbv)
     try:
         alarm.sleep_memory[DSM_dts] = 0
-        magtag.get_local_time() #                           Sync local clock with Adafruit io web time system - needs wifi
+        magtag.get_local_time() #                           Sync local clock with Adafruit io web time system - needs WiFi
         alarm.sleep_memory[DSM_dts] = 1
     except:
         print (AppName + " - Acquire time issue")
@@ -275,7 +275,7 @@ if not alarm.wake_alarm: #                                  Allow wipe of legacy
     )
     if (hlp.pause_or_press(magtag, 6) == 1): #              User selected yes button
         # Initialise deep sleep RAM values if needed
-        # print (AppName + " - Reset Request") #            Debug ouput - User selection activated
+        # print (AppName + " - Reset Request") #            Debug output - User selection activated
         alarm.sleep_memory[DSM_cnt] = 0 #                   Logger memory position count
         alarm.sleep_memory[DSM_mx] = 0 #                    Maximum logged value
         alarm.sleep_memory[DSM_mn] = 99 #                   Minimum logged value
@@ -318,7 +318,7 @@ if (alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] >= Data_Lg_S_Cnt): # Do we need to updat
     # MQQT support
     # Connect
     yfi=0 #                                                 Clear WiFi status
-    mqt=0 #                                                 Clear mqqt status
+    mqt=0 #                                                 Clear MQQT status
     try:
         if (ipv4_address > "") and (ipv4_subnet > ""): #    Pre-assigned ip addresses
             wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address(ipv4_address), netmask=ipaddress.IPv4Address(ipv4_subnet), gateway=ipaddress.IPv4Address(ipv4_gateway), ipv4_dns=ipaddress.IPv4Address(ipv4_dns))
@@ -342,17 +342,17 @@ if (alarm.sleep_memory[DSM_Dt_Lg_S_Cnt] >= Data_Lg_S_Cnt): # Do we need to updat
         )
         # Connect the client to the MQTT broker.
         mqtt_client.connect()
-        mqt=1 #                                             Set mqqt status
+        mqt=1 #                                             Set MQQT status
         mqtt_client.publish(mtdl_fd_tmp, num)
         mqtt_client.publish(mtdl_fd_cbl, cbv)
-        unameStr="" #                                       No longer needed
+        unameStr="" #                                       Remove no longer needed variable
         try:
             alarm.sleep_memory[DSM_dts] = 0
-            magtag.get_local_time() #                       Sync local clock with Adafruit io web time system - needs wifi
+            magtag.get_local_time() #                       Sync local clock with Adafruit io web time system - needs WiFi
             alarm.sleep_memory[DSM_dts] = 1
         except:
             print (AppName + " - Acquire time issue")
-        wifi.radio.ebabled(false) #                             Powerdown WiFi
+        wifi.radio.ebabled(false) #                         Powerdown WiFi
     except:
         pass
 
@@ -373,35 +373,33 @@ if (cnt == Max_Samples):
     elif (Graph_Mode == Graph_Scroll_L):
         for i in range(1 , Max_Samples - 1):
             wr_buf(i, rd_buf(i - 1)) #                      Move samples down one place - Scroll from L to R
-
-
 #-------------------
-cbl = hlp.Current_Battery_Level(cbv)  #                     Rank Current Battery Level for this run
+
 #-------------------
 # Icon display setup
-hlp.load_vlt_icon(cbl, magtag)  #                               Show battery level icon
+hlp.load_vlt_icon(hlp.Current_Battery_Level(cbv), magtag) #           Rank Current Battery Level for this run, Show battery level icon
 if hlp.USB_Connected():
-    hlp.load_small_icon("16x16-usbicon01.bmp", 2, magtag) #     USB Icon - On - Connected
+    hlp.load_small_icon("16x16-usbicon01.bmp", 2, magtag) #           USB Icon - On - Connected
 else:
-    hlp.load_small_icon("16x16-usbicon02.bmp", 2, magtag) #     USB Icon - Off - Disconnect
+    hlp.load_small_icon("16x16-usbicon02.bmp", 2, magtag) #           USB Icon - Off - Disconnect
 
-if (yfi == 1): #                                                Assessed WiFi OK
-    hlp.load_small_icon("16x16-routicon01.bmp", 42, magtag) #   WiFi router
+if (yfi == 1): #                                                      Assessed WiFi OK
+    hlp.load_small_icon("16x16-routicon01.bmp", 42, magtag) #         WiFi router
     # Potential to use actual rssi - takes time and power - simplified
-    hlp.load_wif_icon(80, magtag)  #                            Display a WiFi Icon
+    hlp.load_wif_icon(80, magtag)  #                                  Display a WiFi Icon
 else:
-    hlp.load_small_icon("16x16-routicon00.bmp", 42, magtag) #   No WiFi router
-    hlp.load_wif_icon(1, magtag)  #                             Display a WiFi Icon
+    hlp.load_small_icon("16x16-routicon00.bmp", 42, magtag) #         No WiFi router
+    hlp.load_wif_icon(1, magtag)  #                                   Display a WiFi Icon
 
-if (mqt == 1): #                                                Assessed mqqt was good
-    hlp.load_small_icon("16x16-glb01icon.bmp", 22, magtag) #    Globe - Functional mqqt Internet connection
+if (mqt == 1): #                                                      Assessed MQQT was good
+    hlp.load_small_icon("16x16-glb01icon.bmp", 22, magtag) #          Globe - Functional MQQT Internet connection
 else:
-    hlp.load_small_icon("16x16-glb00icon.bmp", 22, magtag) #    Globe - Exclamation - Bad mqqt Internet connection
+    hlp.load_small_icon("16x16-glb00icon.bmp", 22, magtag) #          Globe - Exclamation - Bad MQQT Internet connection
 
-if (alarm.sleep_memory[DSM_dts] == 1): #                        What was the last date time poll status
-    hlp.load_small_icon("16x16-cal-ok.bmp", 64, magtag) #       Calendar OK icon
+if (alarm.sleep_memory[DSM_dts] == 1): #                              What was the last date time poll status
+    hlp.load_small_icon("16x16-cal-ok.bmp", 64, magtag) #             Calendar OK icon for date time good sync
 else:
-    hlp.load_small_icon("16x16-cal-error.bmp", 64, magtag) #    Calender Exclamation icon
+    hlp.load_small_icon("16x16-cal-error.bmp", 64, magtag) #          Calender Exclamation icon for bad date time sync
 
 #---------------------------------------
 # Data Presentation
@@ -545,7 +543,7 @@ if (num >-50): # In Deg C - Not to cold for the display - Testing showed issues 
 # Calculate the point at which the ned sleep period
 time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + Dis_Upd_Prd)
 
-wdt.deinit() # Turn off the watchdog
+wdt.deinit() #                                              Turn off the watchdog
 
 # Enter Deep Sleep until the next sample point
 alarm.exit_and_deep_sleep_until_alarms(time_alarm)
@@ -560,21 +558,28 @@ alarm.exit_and_deep_sleep_until_alarms(time_alarm)
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-20 - 
+             Added place holders to settings.toml for web based workflow at 
+             http://circuitpython.local/code/
+             For setup see:
+             https://learn.adafruit.com/circuitpython-with-esp32-quick-start/setting-up-web-workflow
+             https://learn.adafruit.com/getting-started-with-web-workflow-using-the-code-editor/device-setup
+             
 2023-02-19 -
-             Support for pre-assigned IP addreses for speed & power reduction
+             Support for pre-assigned IP address in settings.toml for speed & power reduction
 
 2023-02-18 -
              Added USB detection and indication on Tool bar
              Additional code comments
              Reduce debug code printing
-             Added wifi.radio.ebabled(false) to reduce power consumption
+             Added wifi.radio.enabled(false) to reduce power consumption
 
 2023-02-16 -
              Unsupported Beta release
              No further back testing will be performed on pre CircuitPython 8.x.x comments amended
              Applied round to improve linearise function also prepares for future averaging or over sampling
              Removed some print to console items used during development
-             Added UseWiFiServices swtich to permit lower power consumtion
+             Added UseWiFiServices switch to permit lower power consumption
 
 2023-02-07 -
              Added wipe log history prompt on non deep sleep wake_alarm
