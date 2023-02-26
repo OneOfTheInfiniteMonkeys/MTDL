@@ -30,11 +30,11 @@ Copy the files located in the dist folder to the CIRCUITPY folder of the Adafrui
 There are two setup files:  
 <table>
   <tr><th>File</th><th>Comment</th></tr>
-  <tr><td>secrets.py</td><td>WiFi and other account specific settings</td></tr>
-  <tr><td>settings.toml</td><td>Unit specific settings i.e. Calibration, identifiers, options</td></tr>
+  <tr><td><a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/dist/secrets.py" target="_blank">secrets.py</a></td><td>WiFi and other account specific settings</td></tr>
+  <tr><td><a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/dist/settings.toml" target="_blank">settings.toml</a></td><td>Unit specific settings i.e. Calibration, identifiers, options</td></tr>
 </table>
 
-Use of settings.toml is covered below and the comments in the file, details on secrets.py are in the link <a href="https://learn.adafruit.com/electronic-history-of-the-day-with-pyportal/code-walkthrough-secrets-py">here</a>.  
+Use of settings.toml is covered below and the comments in the file, details on secrets.py are in the link <a href="https://learn.adafruit.com/electronic-history-of-the-day-with-pyportal/code-walkthrough-secrets-py" target="_blank">here</a>.  
 WiFi or other settings in secrets.py are not required to use the logger, some features can not be used without WiFi access.
 
 Note 
@@ -49,7 +49,7 @@ Note
 
 ## Hardware
 Optional - A <a href="https://www.adafruit.com/product/4236" target="_blank">LiPo</a> battery, supported by the MagTag.  
-Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag<a>  
+Suggested - <a href="https://www.adafruit.com/product/4807" target="_blank">Acrylic + Hardware Kit for Adafruit MagTag</a>  
 
 ## Discussion
 Design of the MagTag means that when the unit is powered from the USB port the on board voltage regulator and ESP32-S2 cause the units PCB to be heated. To approximately 32 C with a room ambient of 22 C under typical continuous use conditions with <a href="https://codewith.mu/" target="_blank">Mu editor</a> (even with <a href="https://docs.circuitpython.org/en/latest/shared-bindings/alarm/index.html" target="_blank">sleep modes</a>). This heating effect (see image below) causes a measurement error and unless the PCB temperature is desired, powering from the USB port typically prevents ambient temperature sensing due to the typical heat soak from the ESP32-S2 and voltage regulators and particularly so when charging a battery as is shown in the thermal image here.  
