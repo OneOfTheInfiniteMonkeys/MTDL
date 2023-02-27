@@ -2,10 +2,10 @@
 # --------------------------------------
 # Project          : MacroPad
 # Version          : 0.9
-# Date             : 20 Feb 2023
+# Date             : 27 Feb 2023
 # Author           : OneOfTheInfiniteMonkeys
 # Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
-# Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTMP
+# Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTDL
 # License          : MIT License - See distribution licence details
 #                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
 # Hardware         : Adafruit MagTag
@@ -25,7 +25,7 @@ import time                              # access sleep function
 #import socketpool                       # Used to access network sockets
 #import ssl                              # Secure Socket Layer protocol support
 # import adafruit_requests               # Requests-like library for web interfacing
-#import json                             # Support for json handling
+#import json                             # Support for JSON handling
 import displayio                         # For bitmap image display
 import adafruit_imageload                # Support for bitmap image loading of icons
 import sys                               # System version information
@@ -129,7 +129,7 @@ def nv_store_read_str(Location):
     while (alarm.sleep_memory[Location + i] != 0):
         StrToStore += chr(alarm.sleep_memory[Location + i])  # build the string
         i += 1                    # Increment the counter to point at next byte
-    # <-- End of loop reading from sleep memory
+        # <-- End of loop reading from sleep memory
     return StrToStore  # return the string read from the memory location
 # ------------------------------------------------------------------------------
 
@@ -146,7 +146,6 @@ def set_mt_leds(ldclr, lbl, magtag):
     magtag.peripherals.neopixels[2] = (ldclr) * lbl
     magtag.peripherals.neopixels[1] = (ldclr) * lbl
     magtag.peripherals.neopixels[0] = (ldclr) * lbl
-
     return
 # ------------------------------------------------------------------------------
 
@@ -185,19 +184,22 @@ def count_neopixel(sel_mode, ldclr, lbl, magtag):
 def load_vlt_icon(lvl, magtag):
     # Display the battery voltage level icon based on an assessed battery level
     # The terminal discharge voltage is non linear
-    sv = Current_Battery_Level(lvl)
-    load_small_icon("bat0" + str(sv) + ".bmp", 274, magtag)
+    # sv = Current_Battery_Level(lvl)
+    load_small_icon("bat0" + str(lvl) + ".bmp", 274, magtag)
+    return
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 def load_wif_icon(lvl, magtag):
     sv = 6
     load_small_icon("wif0" + str(sv) + ".bmp", 258, magtag)
+    return
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 def load_small_icon(icon_file_name, xpos, magtag):
     # uses small_icon_class
+    # loads from a file into the Tile Grid at the x position specified at the top of the display
     icons_small_bmp, icons_small_pal = adafruit_imageload.load("/ico/" + icon_file_name)
     small_icon_class = displayio.TileGrid(
                                     icons_small_bmp,
@@ -213,6 +215,7 @@ def load_small_icon(icon_file_name, xpos, magtag):
     small_ico_class = displayio.Group()
     small_ico_class.append(small_icon_class)
     magtag.splash.append(small_ico_class)
+    return
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -460,6 +463,7 @@ def deepsleepmode(LBL, mt_idx, magtag):
     d = while_display_busy(3)  #                                Allow display to complete update
     magtag.peripherals.neopixels[0] = BLACK  #                  No lights - Not sending key presses
     magtag.exit_and_deep_sleep(2678400)  #                      Basically don't wake again - well ~ 1 month
+    return
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -497,6 +501,10 @@ def USB_Connected():
 # --------------------------------------
 #
 # --------------------------------------
+2023-02-23 - 0.91
+             Style improvement - return statement consistently applied to all functions
+             Source location comment updated from MTMP to MTDL
+             
 2023-02-22 - 0.9
              Typo corrections
              Battery voltage level assessment issue correction
