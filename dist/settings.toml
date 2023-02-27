@@ -1,4 +1,14 @@
-#---------------------------------------
+# --------------------------------------
+# Project          : MagTag Data Logger
+# Version          : 0.1
+# Date             : 27 Feb 2023
+# Author           : OneOfTheInfiniteMonkeys
+# Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
+# Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTDL
+# License          : MIT License - See distribution licence details
+#                  : Applicable to only those elements authored by OneOfTheInfiniteMonkeys
+# Hardware         : Adafruit MagTag
+# --------------------------------------
 # setting.toml settings file
 # Values in this file are unique to each device
 # Requires CircuitPython 8.0.0 and later
