@@ -13,6 +13,7 @@ ipv4_address = "" #                IPv4 address - Ensure unique on subnet e.g. 1
 ipv4_subnet = "" #                 IPv4 Subnet - Typical Class C local / home subnet 255.255.255.0
 ipv4_gateway = "" #                IPv4 Gateway or router address on a home network when connected to an access point e.g. 192.168.0.254
 ipv4_dns = "" #                    IPv4 DNS server, usually the router address on a home network e.g. 192.168.0.254
+TimeServiceReqCounts = 5 #         Number of wake events before local time is synced with internet time 
 
 
 #---------------------------------------
@@ -26,6 +27,7 @@ ipv4_dns = "" #                    IPv4 DNS server, usually the router address o
 
 # CIRCUITPY_WEB_API_PASSWORD = "passw0rd" # Set your own web interface password here!
 # CIRCUITPY_WEB_API_PORT=80 #      Typically leave alone at port 80
+#---------------------------------------
 # NOTE:
 # boot.py in this distribution is already set to automatically disable 
 # the CIRCUITPY drive as required for this workflow.
