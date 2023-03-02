@@ -78,7 +78,7 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
 From two randomly selected MagTag devices purchased at the same time, the offset difference was found to be ~6 units.
   
 Calibration is performed by adjusting values in the <a rel="noopener noreferrer" href="https://learn.adafruit.com/scrolling-countdown-timer/create-your-settings-toml-file" target="_blank">settings.toml</a> file stored in the root folder of the CIRCUITPY MagTag device.
-The values m0 and c0 are set to 1.0 and 0.0 respectively in the distribution to cause the display to scale to raw sensor units used in the compensation calculation y = mx + c . Where m is set to m0 and c is set to c1 from the settings.toml file (default values are applied if no settings exist).  
+The values m0 and c0 are set to 1.0 and 0.0 respectively in the distribution to cause the display to scale to raw sensor units used in the compensation calculation y = mx + c . Where m is set to m0 and c is set to c0 from the settings.toml file (default values are applied if no settings exist).  
 
 For basic adjustment, if assuming similar performance to the curve shown:  
   1) Set the value of m0 to 0.9826 from the default of 1.0 in the settings.toml file 
