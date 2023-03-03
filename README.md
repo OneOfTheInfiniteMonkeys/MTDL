@@ -107,6 +107,17 @@ The curve below is taken from a unit logging at 120 second intervals from a full
 
 It should be noted that placing the LiPo battery attached to the rear of the MagTag will affect the thermal inertia. The capacity of the LiPo battery impacts the charge time. LiPo battery warnings are set to 3.7 Volts, ~88% new battery terminal voltage, lower voltages are <a rel="noopener noreferrer" href="https://cdn-shop.adafruit.com/datasheets/785060-2500mAh_specification_sheet.pdf" target="_blank">not recomended</a>. It was found allowing battery terminal voltage to fall lower also resulted in excessive charge times.
   
+## Example Data Logging 
+The data below was sampled every 120 seconds over a number of days.  
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Data-With-Test-Filter-00.png" width="400px" alt="Adafruit MagTag 120 second temperature data and test filter. (c) 03 Mar 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  </div>  
+</div>  
+
+The raw data is shown with a test data filter (in Orange).  
+
+
 ## MQQT
 Two <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/MQTT" target="_blank">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
 
