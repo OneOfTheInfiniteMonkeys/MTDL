@@ -115,7 +115,8 @@ The data below was sampled every 120 seconds over a number of days.
   </div>  
 </div>  
 
-The raw data is shown with a test data filter (in Orange). The (optional) filter configuration is selected to introduce minimal delay, exhibit good step response to (relatively) rapidly changing temperature data, have straight forward implementation and a response that is a good match for the experienced environment.  
+The raw data is shown with a test data filter (in Orange). The (optional) filter configuration is selected to introduce minimal delay, exhibit good step response to (relatively) rapidly changing temperature data, have straight forward implementation and a response that is a good match for the experienced environment. The test filter has the transfer function y[n] = (0.1 * x[n]) + (0.9 * x[n-1]), these are (will be) settable in the settings.toml file such that the performance can be readily adjusted.  
+
 The graphed data for Battery and Temperature were retreived from the published MQQT data streams (see MQQT below).  
 
 ## MQQT
