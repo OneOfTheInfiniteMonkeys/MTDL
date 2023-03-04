@@ -67,11 +67,11 @@ Use of magnetic stand off feet to attach the MagTag to a metallic surface will m
 For sensing of the ambient temperature, air flow over the rear of the MagTag should ideally not be restricted. Testing within a <a rel="noopener noreferrer" href="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTMP/main/images/MagTag-MacroPad-00.png" target="_blank">plastic</a> case where the MagTag was substantially attached to the housing demonstrated reasonable thermal responsiveness arising from the design decisions, materials and construction.  
 
 ## Calibration
-To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed for calibration, such as multi <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Degree_of_a_polynomial" target="_blank">degree (order) polynomials</a> or <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Lookup_table" target="_blank">lookup tables</a>. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
+To calibrate the device a performance curve was obtained as shown below. Depending on the level of accuracy required various mechanisms might be employed for calibration, such as multi <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Degree_of_a_polynomial" target="_blank">degree (order) polynomials</a> or <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Lookup_table" target="_blank">lookup tables</a>. In the release software it was elected to implement a straightforward compensation based on a straight line y = mx + c. The LIS3DH MEMS digital output motion sensor device specification points to 1 C per bit and though each measurement point was repeated three times, the variation observed might be associated with measurement uncertainty of the characterisation system rather than the device its self. For other MagTag devices it is probably satisfactory to assess the offset at a reference temperature to achieve reasonable performance.
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Tempeature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DG temperature performance characterisation. (c) 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Tempeature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DH MEMS digital output motion sensor, temperature performance characterisation. (c) 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
   </div>
 </div>
 
@@ -115,11 +115,11 @@ The data below was sampled every 120 seconds over a number of days.
   </div>  
 </div>  
 
-The raw data is shown with a test data filter (in Orange).  
-
+The raw data is shown with a test data filter (in Orange). The (optional) filter configuration is selected to introduce minimal delay, exhibit good step response to (relatively) rapidly changing temperature data, have straight forward implementation and a response that is a good match for the experienced environment.  
+The graphed data for Battery and Temperature were retreived from the published MQQT data streams (see MQQT below).  
 
 ## MQQT
-Two <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/MQTT" target="_blank">MQQT <a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
+Two <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/MQTT" target="_blank">MQQT</a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
 
 See <a rel="noopener noreferrer" href="https://learn.adafruit.com/mqtt-in-circuitpython" target="_blank">here</a> for more information on MQQT.   
 
@@ -133,7 +133,7 @@ The key features are shown below:
 </div>  
 
 ## Note
-An external temperature (or other) sensor(s) channel could readily be substituted, via the MagTags data connections if desired.
+An external temperature (or other) sensor(s) channel could readily be substituted, via the <a rel="noopener noreferrer" href="https://learn.adafruit.com/adafruit-magtag/pinouts#stemma-qt-3077167" alt="Adafruit MagTag Stemma Connector Link">MagTags QWIC StemmaQT</a> data connections if desired.
   
   
 DSEG14 Font credit https://github.com/keshikan/DSEG Release 7 
