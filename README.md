@@ -94,10 +94,10 @@ To perform a custom calibration, set m0 to 1.0 and c0 = 0.0 in the settings.toml
 
 
 Note 
-The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a rel="noopener noreferrer" href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage" targte="_blank">boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" target="_blank">REPL</a> and <a rel="noopener noreferrer" href="https://learn.adafruit.com/customizing-usb-devices-in-circuitpython" target="_blank">emulated USB memory device</a> etc.
+The settings.toml file can be accessed by keeping the button D11 next to the USB connector depressed during the boot sequence. The boot sequence is initiated by pressing the reset button once. This will cause the <a rel="noopener noreferrer" targt="_blank" href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage" >boot.py</a> file to detect the button press and enable the USB drivers required for serial port <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" target="_blank">REPL</a> and <a rel="noopener noreferrer" target="_blank" href="https://learn.adafruit.com/customizing-usb-devices-in-circuitpython" >emulated USB memory device</a> etc.
 
 ## Battery Life
-The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 <a rel="noopener noreferrer" href="https://learn.adafruit.com/products/4236/guides" target="_blank">LiPo</a> battery. The WiFi signal strength was ~-30 dBm, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
+The curve below is taken from a unit logging at 120 second intervals from a fully charged 2000 mAh PKCELL LP803860 <a rel="noopener noreferrer" href="https://learn.adafruit.com/products/4236/guides" target="_blank">LiPo</a> battery. The WiFi signal strength was <a rel="noopener noreferrer" targt="_blank" href="https://en.wikipedia.org/wiki/DBm">~-30 dBm</a>, the WiFi Channel has been identified and a maximum 10 seconds permitted for WiFi acquisition in the settings.py file.  
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
