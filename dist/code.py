@@ -87,9 +87,10 @@ cbv = 0 #                                                   Current battery volt
 
 #---------------------------------------
 # Read temperature sensor located in the accelerometer LIS3DH I.C.
-# Do this soon after booting to reduce influence of potential board thermals
-# A MagTag connected to USB results in a heated PCB and heated LIS3DH I.C.
+# Do this soon after booting to reduce influence of potential board or other thermals
+# A MagTag connected to USB may result in a heated PCB and heated LIS3DH I.C.
 # The temperature appears to have an offset between different units
+# See Calibration notes and settings.toml for compensation
 def rd_accel_tmp():
     # set up accelerometer to get temperature
     i2c = board.I2C()  # uses board.SCL and board.SDA
@@ -114,7 +115,7 @@ def rd_accel_tmp():
 #---------------------------------------
 # Convert 2's complement to number from two bytes dh and dl
 def tc_to_nm(dh, dl):
-    nb = dh #                                               For this usage date only in dh, drop dl
+    nb = dh #                                               For this usage data only in dh, drop dl
     if (nb & 0x80) == 0: #                                  Is MSB set - if not, no conversion
        # Positive
        pass
@@ -147,8 +148,10 @@ def wr_buf(i, nmber):
 #---------------------------------------
 # Obtain environment parameter from settings.toml
 # Simplifies management of multiple units and basic settings
-# CircuitPython 8.0.0 and above
-# Set min max to be the same for strings
+# requires CircuitPython 8.0.0 and above for settings.toml file use through os.getenv()
+# Set nameStr as the name of the item in setings.toml
+# Set min max to be the same for strings, otherwise limits for numeric settings
+# Set defStr as the default value to use where no entry or issue identified
 # requires access to os library
 def get_ev(nameStr, minv, maxv, defStr):
     try:
@@ -170,10 +173,10 @@ def linearise(num):
     # In this case apply a simplified y = mx + c to the data
     # accesses settings.toml through get_ev()
     # The default correction factors should be overridden in settings.toml
-    # Alternate compensation algorithm could be applied here
+    # Alternate fit algorithm could be applied here
     # returns an integer
-    m0 =  0.9826 #                                          Default correction factor for LIS3DH I.C. in Deg.C
-    c0 =  26.431 #                                          Default correction factor for LIS3DH I.C. in Deg.C
+    m0 =  0.9826 #                                          Default correction factor for LIS3DH I.C. in Deg.C i.e. m
+    c0 =  26.431 #                                          Default correction factor for LIS3DH I.C. in Deg.C i.e. c
     m0 = get_ev("m0", -30, 30, m0) #                        Get user set Temperature cal. value if available
     c0 = get_ev("c0", -30, 30, c0) #                        Get user set Temperature cal. value if available
     linerise = float(float(m0) * float(num)) + float(c0)
@@ -181,7 +184,7 @@ def linearise(num):
 #-------------------
 
 #---------------------------------------
-# Connect to WiFo using parameters in secrets.py
+# Connect to WiFi using parameters in secrets.py
 def wifi_connect():
     # Attempt to connect to the WiFi defined in secrets.py
     # Specific connection related settings e.g. fixed ip address are stored in settings.toml
