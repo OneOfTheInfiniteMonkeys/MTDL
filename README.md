@@ -71,7 +71,7 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DH MEMS digital output motion sensor, temperature performance characterisation. (c) 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DH MEMS digital output motion sensor, temperature performance characterisation. Copyright 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
   </div>
 </div>
 
@@ -101,7 +101,7 @@ The curve below is taken from a unit logging at 120 second intervals from a full
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/LoadedDischargeCurve00.png" width="400px" alt="Adafruit MagTag 120 second loaded battery performance characterisation. (c) 15 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/LoadedDischargeCurve00.png" width="400px" alt="Adafruit MagTag 120 second loaded battery performance characterisation. Copyright 15 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
@@ -111,7 +111,7 @@ It should be noted that placing the LiPo battery attached to the rear of the Mag
 The data below was sampled every 120 seconds over a number of days.  
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Data-With-Test-Filter-00.png" width="400px" alt="Adafruit MagTag 120 second temperature data and test filter. (c) 03 Mar 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Data-With-Test-Filter-00.png" width="400px" alt="Adafruit MagTag 120 second temperature data and test filter. Copyright 03 Mar 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
@@ -129,7 +129,7 @@ The key features are shown below:
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Data-Logger-Basic-Features-00.png" width="960px" alt="Adafruit MagTag Data Logger Basic Features. (c) 17 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Data-Logger-Basic-Features-00.png" width="960px" alt="Adafruit MagTag Data Logger Basic Features. Copyright 17 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
