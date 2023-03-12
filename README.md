@@ -3,7 +3,7 @@ MagTag Data Logger is a CircuitPython data logger that permits ambient temperatu
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
+  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/20230205-MTDL-Beta.jpg?raw=true" width="400px" alt="Adafruit Magtag Data Logger PCB. Image copyright (c) 05 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
   </div>
 </div>  
 
@@ -56,7 +56,7 @@ Design of the MagTag means that when the unit is powered from the USB port the o
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/MagTag-Thermal-USB-Powered-00.jpg" width="400px" alt="Adafruit MagTag Data Logger PCB with USB power, Thermal Image. Image copyright (c) 04 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Emissivity set for PCB, room ambient 22 C">
+  <img src="https://raw.githubusercontent.com/OneOfTheInfiniteMonkeys/MTDL/main/images/MagTag-Thermal-USB-Powered-00.jpg?raw=true" width="400px" alt="Adafruit MagTag Data Logger PCB with USB power, Thermal Image. Image copyright (c) 04 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Emissivity set for PCB, room ambient 22 C">
   </div>
 </div>  
 
@@ -101,7 +101,7 @@ The curve below is taken from a unit logging at 120 second intervals from a full
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/LoadedDischargeCurve00.png" width="400px" alt="Adafruit MagTag 120 second loaded battery performance characterisation. Copyright 15 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/LoadedDischargeCurve00.png?raw=true" width="400px" alt="Adafruit MagTag 120 second loaded battery performance characterisation. Copyright 15 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
@@ -111,7 +111,7 @@ It should be noted that placing the LiPo battery attached to the rear of the Mag
 The data below was sampled every 120 seconds over a number of days.  
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Data-With-Test-Filter-00.png" width="400px" alt="Adafruit MagTag 120 second temperature data and test filter. Copyright 03 Mar 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Data-With-Test-Filter-00.png?raw=true" width="400px" alt="Adafruit MagTag 120 second temperature data and test filter. Copyright 03 Mar 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
@@ -129,7 +129,7 @@ The key features are shown below:
   
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Data-Logger-Basic-Features-00.png" width="960px" alt="Adafruit MagTag Data Logger Basic Features. Copyright 17 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Data-Logger-Basic-Features-00.png?raw=true" width="960px" alt="Adafruit MagTag Data Logger Basic Features. Copyright 17 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
   </div>  
 </div>  
 
