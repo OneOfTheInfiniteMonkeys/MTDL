@@ -71,7 +71,7 @@ To calibrate the device a performance curve was obtained as shown below. Dependi
 
 <div align="center">
   <div style="display: flex; align-items: flex-start;">
-  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Reading-Correlation-LIS3DH.png" width="400px" alt="Adafruit MagTag LIS3DH MEMS digital output motion sensor, temperature performance characterisation. Copyright 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved. Measurement resolution 0.1 C, Room ambient 22 C">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/MagTag-Temperature-Reading-Correlation-LIS3DH.png" width="400px" alt="Copyright 14 Feb 2023 OneOfTheInfiniteMonkeys All Rights Reserved">
   </div>
 </div>
 
