@@ -26,7 +26,10 @@ Requirements
 Optional  
 - <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB C cable connection to host computer</a>
 
-Copy the files located in the dist folder to the CIRCUITPY folder of the Adafruit MagTag.  
+Download and unzip the <a href="https://github.com/OneOfTheInfiniteMonkeys/MTDL/zipball/master/">Repository Zip file</a>.  
+Make sure you are using the correct versio of CircuitPython for the release.  
+Then copy the files located in the 'dist' folder of the unzipped files to the CIRCUITPY drive (root) folder of the Adafruit MagTag.  
+
 There are two setup files:  
 <table>
   <tr><th>File</th><th>Comment</th></tr>
