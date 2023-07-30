@@ -2,7 +2,7 @@
 # --------------------------------------
 # Project          : Logger
 # Version          : 0.1
-# Date             : 27 Feb 2023
+# Date             : 30 Jul 2023
 # Author           : OneOfTheInfiniteMonkeys
 # Copyright        : (c) Copyright OneOfTheInfiniteMonkeys All Rights Reserved
 # Source Location  : https://github.com/OneOfTheInfiniteMonkeys/MTDL
@@ -25,6 +25,7 @@
 #   Disp. Colours  : 0x000000, 0x666666, 0x999999, 0xFFFFFF
 # --------------------------------------
 """
+import gc #                                                 Memory management e.g. garbage collection especially post graphic loading
 import time #                                               For Alarm functions and watchdog
 import board #                                              For Alarm functions
 import alarm #                                              For Alarm functions
@@ -40,8 +41,10 @@ import wifi #                                               MQQT access - WiFi a
 import ipaddress #                                          Allows for optional (and poss. lower power) static ip address
 from secrets import secrets #                               Access the secrets.py
 
+
 import microcontroller #                                    For watchdog timer
 import watchdog #                                           For watchdog timer
+# print ("Mem - Post Boot ", gc.mem_free()) #               For available memory monitoring
 
 #---------------------------------------
 # Initialise defaults
@@ -85,10 +88,11 @@ yfi = 0 #                                                   Is WiFi available
 mqt = 0 #                                                   Did MQQT complete
 cbv = 0 #                                                   Current battery voltage
 
+
 #---------------------------------------
 # Read temperature sensor located in the accelerometer LIS3DH I.C.
-# Do this soon after booting to reduce influence of potential board or other thermals
 # A MagTag connected to USB may result in a heated PCB and heated LIS3DH I.C.
+# Do this soon after booting to reduce influence of potential board or other thermals
 # The temperature appears to have an offset between different units
 # See Calibration notes and settings.toml for compensation
 def rd_accel_tmp():
@@ -190,19 +194,20 @@ def wifi_connect():
     # Specific connection related settings e.g. fixed ip address are stored in settings.toml
     # A value indicating status of the whole process is returned 0=issue, 1=success
     wifi_conn = 0
+    # IP settings are located in settings.toml accessed via get_ev()
     ipv4_address = get_ev("ipv4_address", 0, 0, "") #       Double check your settings - No checking is done on these
     ipv4_subnet = get_ev("ipv4_subnet", 0, 0, "")
     ipv4_gateway = get_ev("ipv4_gateway", 0, 0, "")
     ipv4_dns = get_ev("ipv4_dns", 0, 0, "")
     try:
-        if (ipv4_address > "") and (ipv4_subnet > ""): #    Pre-assigned ip addresses
+        if (ipv4_address > "") and (ipv4_subnet > ""): #    Pre-assigned ip addresses available?
             wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address(ipv4_address), netmask=ipaddress.IPv4Address(ipv4_subnet), gateway=ipaddress.IPv4Address(ipv4_gateway), ipv4_dns=ipaddress.IPv4Address(ipv4_dns))
         wifi.radio.enabled = True #                         wifi.radio has sole instance
         wifi.radio.connect(secrets["ssid"], secrets["password"])
-        wifi_conn = 1
+        wifi_conn = 1 #                                     wifi status - seems good
     except:
-        wifi_conn = 0
-    return wifi_conn #                                       Return the status of connecting to the WiFi
+        wifi_conn = 0 #                                     wifi status - seems bad
+    return wifi_conn #                                      Return the status of connecting to the WiFi
 #-------------------
 
 #---------------------------------------
@@ -216,7 +221,7 @@ def publish_to_mqqt(num, cbv, GUIDStr):
     #   note the sample point time is assumed as the publishing time
     # Access secrets.py
     # Uses settings.toml for unique device id via GUIDStr
-    mqqt_status = 0
+    mqqt_status = 0 #                                           Default to MQQT status bad / fail
     # print ("MQQT Connection attempt " + str(wifi.radio.enabled))
     try:
         unameStr = secrets["aio_username"] #                    Read once
@@ -238,10 +243,10 @@ def publish_to_mqqt(num, cbv, GUIDStr):
         mqtt_client.publish(mtdl_fd_tmp, num) #                 Publish logged value
         mqtt_client.publish(mtdl_fd_cbv, cbv) #                 Publish Current Battery Voltage
         mqtt_client.loop(2) #                                   Allow send queue processing - 2s normally long enough
-        mqqt_status = 1 #                                       MQQT was established - set status
+        mqqt_status = 1 #                                       MQQT was established - set status as good / pass
         # print ("MQQT Connection attempt - Complete")
     except:
-        mqqt_status = 0
+        mqqt_status = 0 #                                       MQQT was established - set status as bad / fail
         # print ("MQQT Connection attempt - Issue")
     return mqqt_status
 #-------------------
@@ -257,7 +262,7 @@ def sync_time(TimeServiceStatus, TimeServiceCount, TimeSreviceReqCounts, magtag)
     if (TimeServiceCount > 0):
         TimeServiceCount -= 1 #                             Decrement the counter on every call
     else:
-        TimeServiceCount = TimeSreviceReqCounts #           catch eny errors for the first value
+        TimeServiceCount = TimeSreviceReqCounts #           catch any errors for the first value
 
     if (TimeServiceCount == 0): #                           When the count is zero perform a time service update
         try:
@@ -280,23 +285,23 @@ num = linearise(num)  #                                     Apply Calibration fa
 magtag = MagTag() #                                         Access to the MagTag Object
 cbv = magtag.peripherals.battery  #                         Read Current Battery Voltage as soon as reasonable
 
-# Over ride internal settings with settings from settings.toml
-GUIDStr = get_ev("GUIDStr", 0, 0, "00") #                   A unique ID string for this board - digits 0 to 9
-Segment_Shadow = get_ev("Segment_Shadow", 0, 1, 0) #        Users segment shadow preference
-Dis_Upd_Prd = int(get_ev("Sample_Period", 0, 600, Dis_Upd_Prd)) #   Sample rate for display update default is 120
-UseWiFiServices = get_ev("UseWiFiServices", 0, 1, 1) #      Are WiFi services to be used
-
 wdt = microcontroller.watchdog #                            Establish watchdog to allow recovery and prevent battery exhaustion
 wdt.timeout = 60 #                                          Watchdog timeout - will allow recovery from unanticipated issues e.g. WiFi
+
+# Over ride internal settings with settings from settings.toml
+GUIDStr = get_ev("GUIDStr", 0, 0, "99") #                   A unique ID string for this board - digits 0 to 9
+Segment_Shadow = get_ev("Segment_Shadow", 0, 1, 0) #        Users segment shadow preference - default shadows off
+Dis_Upd_Prd = int(get_ev("Sample_Period", 0, 600, Dis_Upd_Prd)) #   Sample rate for display update default is 120
+UseWiFiServices = get_ev("UseWiFiServices", 0, 1, 1) #      Are WiFi services to be used - default yes WiFi used
 
 #---------------------------------------
 # Actions taken if not an alarm wake up e.g on manual reset
 # print (AppName + " - Wake cause " + str(alarm.wake_alarm)) # debug output of wake cause
 if not alarm.wake_alarm: #                                  Allow wipe of legacy data
     PonText = magtag.add_text( #                            Power On Text for probable manual reset
-        text_position=( #                                   Name - Top of Screen
-            0, #                                            X position
-            64, #                                           Y position
+        text_position=( #                                   Text offset from Top Left of e-ink display
+            0, #                                            X position offset
+            64, #                                           Y position offset
         ),
         text_font = "/fonts/Arial-Bold-12.bdf",
         text_color = 0x000000, #                            Deepest darkest black font
@@ -305,28 +310,28 @@ if not alarm.wake_alarm: #                                  Allow wipe of legacy
         text = " MagTag Data Logger  Erase previous log?  Yes  (3s timeout) ", # With default text will auto display
         text_scale = 1, #                                   1 = small
     )
-    if (hlp.pause_or_press(magtag, 6) == 1): #              User selected yes button
+    if (hlp.pause_or_press(magtag, 6) == board.D15): #      User selected yes button? (Furthest from USB connector)
         # Initialise deep sleep RAM values if needed
         # print (AppName + " - Reset Request") #            Debug output - User selection activated
         alarm.sleep_memory[DSM_cnt] = 0 #                   Logger memory position count
         alarm.sleep_memory[DSM_mx] = 0 #                    Maximum logged value
         alarm.sleep_memory[DSM_mn] = 99 #                   Minimum logged value
         alarm.sleep_memory[DSM_dts] = 0 #                   Date Time Status of synchronisation (updated at logger frequency)
-        for i in range(0, Max_Samples -1): #                Only clear buffer if user requested
+        for i in range(0, Max_Samples -1): #                Only clear buffer if user requested (note count start from 0)
             # wr_buf(i, 20 ) #                              Simulate buffer full for testing
             wr_buf(i, (-1 * BF_OSV))  #                     Initialise buffer with minimum possible values
 
     magtag.remove_all_text() #                              (Secret magic) method to remove text setups ;-)
 
     # Establish time sync on new or requested reset
-    if (UseWiFiServices == 1): #                            Are WiFi services to be accessed
+    if (UseWiFiServices == 1): #                            Are WiFi services to be accessed?
         yfi = wifi_connect() #                              Attempt to establish a WiFi connection using params in secrets.py
         # print ("yfi status " + str(yfi))
         if (yfi == 1): #                                    Was a WiFi connection established
-            # Froce initialise the Time Service Request counter and time sync
+            # Force initialise the Time Service Request counter and time sync
             TS_Tuple = sync_time(alarm.sleep_memory[DSM_dts], alarm.sleep_memory[DSM_cts], 1, magtag ) #  Synchronise the internal clock
             alarm.sleep_memory[DSM_dts] = int(TS_Tuple[0]) # Update date time service status for later indication
-            alarm.sleep_memory[DSM_cts] = int(get_ev("TimeServiceReqCounts", 1, 20, 1)) # intialise counter or set default
+            alarm.sleep_memory[DSM_cts] = int(get_ev("TimeServiceReqCounts", 1, 20, 1)) # initialise counter or set default
             TS_Tuple =  "" #                                We don't need this again
             TS_Req_Cnts = ""
 #-------------------
@@ -403,10 +408,12 @@ if (cnt == Max_Samples):
 #---------------------------------------
 # Icon display setup
 hlp.load_vlt_icon(hlp.Current_Battery_Level(cbv), magtag) #           Rank Current Battery Level for this run, Show battery level icon
+gc.collect #                                                          Empty Garbage - post image load
 if hlp.USB_Connected():
     hlp.load_small_icon("16x16-usbicon01.bmp", 2, magtag) #           USB Icon - On - Connected
 else:
     hlp.load_small_icon("16x16-usbicon02.bmp", 2, magtag) #           USB Icon - Off - Disconnect
+gc.collect #                                                          Empty Garbage - post image load
 
 if (yfi == 1): #                                                      Assessed WiFi OK
     hlp.load_small_icon("16x16-routicon01.bmp", 42, magtag) #         WiFi router
@@ -415,16 +422,19 @@ if (yfi == 1): #                                                      Assessed W
 else:
     hlp.load_small_icon("16x16-routicon00.bmp", 42, magtag) #         No WiFi router
     hlp.load_wif_icon(1, magtag)  #                                   Display a WiFi Icon
+gc.collect #                                                          Empty Garbage - post image load
 
 if (mqt == 1): #                                                      Assessed MQQT was good
     hlp.load_small_icon("16x16-glb01icon.bmp", 22, magtag) #          Globe - Functional MQQT Internet connection
 else:
     hlp.load_small_icon("16x16-glb00icon.bmp", 22, magtag) #          Globe - Exclamation - Bad MQQT Internet connection
+gc.collect #                                                          Empty Garbage - post image load
 
 if (alarm.sleep_memory[DSM_dts] == 1): #                              What was the last date time poll status
     hlp.load_small_icon("16x16-cal-ok.bmp", 64, magtag) #             Calendar OK icon for date time good sync
 else:
     hlp.load_small_icon("16x16-cal-error.bmp", 64, magtag) #          Calender Exclamation icon for bad date time sync
+gc.collect #                                                          Empty Garbage - post image load
 #-------------------
 
 #---------------------------------------
@@ -520,8 +530,8 @@ magtag.add_text( #                                          Time Of Last Update 
 )
 #                         Xl, Yt, Xr, Yb
 magtag.splash.append(Line(0, 17 ,295, 17,  0x000000)) #     Draw division line for ICON bar at top of display
-
 magtag.splash.append(Line(0, 114 ,295, 114,  0x000000)) #   Draw division line for Status bar at bottom of display
+
 
 #---------------------------------------
 # Draw Graph elements
@@ -535,30 +545,29 @@ for i in range (0, 71, 10):
     # Right Chart Ticks
     magtag.splash.append(Line( GR_L + Max_Samples +1, GR_T + 70 -i, GR_L + Max_Samples + 4, GR_T + 70 -i,  0x000000))
 
-#---------------------------------------
-#Plot data to graph with reference to 0 C line
+# Plot data to graph with reference to 0 C line
 for i in range(0, Max_Samples):
     if (rd_buf(i) > (-1 * BF_OSV)): # Is the buffer value greater than the lowest value held in the buffer
         # Light colour fill below data - If no fill desired, comment out this line
         magtag.splash.append(Line(i + GR_L +1, (GR_T + 50), i + GR_L + 1, (GR_T + 50) - rd_buf(i),  0x999999)) # Light Fill line graph
-        # Dark data point
+        # Dark data point (at top of fill where fill selected - see previous line)
         magtag.splash.append(Line(i + GR_L +1, (GR_T + 50)  - rd_buf(i), i + GR_L + 1, (GR_T + 50) - rd_buf(i),  0x000000)) # Point
 
-
-# create graph graticule
+# create graph graticule marker
 for i in range(0, Max_Samples, 6): #                        X Axis increments
     for j in range(0, 71, 10): #                            Y Axis increments
         magtag.splash.append(Line(i + GR_L +1, (GR_T + j), i + GR_L + 1, (GR_T + j),  0x666666)) # Point
 
-# create graticule zero
+# create graticule zero marker
 for i in range(0, Max_Samples, 6): #                        X Axis increments
     magtag.splash.append(Line(i + GR_L +1, (GR_T + 50), i + GR_L + 1, (GR_T + 50),  0x000000)) # Point
     magtag.splash.append(Line(i + GR_L +2, (GR_T + 50), i + GR_L + 2, (GR_T + 50),  0x000000)) # Point
 #-------------------
 
+
 #---------------------------------------
 # Update previously set text elements of the display
-if (num >-40): # In Deg C - Not to cold for the display - Testing showed issues ~ -18 C
+if (num >-40): # In Deg C - Not to cold for the display - Testing showed issues ~ -18 C - Note raw number not scaled
     magtag.set_text("MTDL", 0, False) #                     App title
     magtag.set_text("~~", 2, False) #                       Shadow of display
     magtag.set_text(str(num), 1, False) #                   Data value
@@ -567,6 +576,7 @@ if (num >-40): # In Deg C - Not to cold for the display - Testing showed issues 
     magtag.set_text(str(num) + " C  Max=" + str(alarm.sleep_memory[DSM_mx] - BF_OSV) + "  Min=" + str(alarm.sleep_memory[DSM_mn] - BF_OSV) + "  Cnt=" + str(cnt) + "  Bat=" + "{:.1f}".format(cbv) + " V", 5, False)
     magtag.set_text(str(hlp.hh_mm(time.localtime(),False)), 6, False)
     magtag.refresh() #                                      Draw all text & graph changes to the display
+    hlp.while_display_busy(2) #                             Ensure display updates completed
 #-------------------
 
 #---------------------------------------
@@ -574,11 +584,13 @@ if (num >-40): # In Deg C - Not to cold for the display - Testing showed issues 
 # As network operations can have variable length we need to compensate for next wake up point
 # - Possibly not practicable for less than 30s sleep intervals
 SLP_Offset = Dis_Upd_Prd - (time.time() % Dis_Upd_Prd) #    Arrange to wake up at the next interval boundary point
-print ("Sleep Offset " + str(SLP_Offset))
+# print ("Sleep Offset " + str(SLP_Offset))
 # Set the point at which the sleep period should wake us up for the next sample
 time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + SLP_Offset)
+gc.collect #                                                Empty Garbage
 
 wdt.deinit() #                                              Turn off the watchdog
+#print ("Mem - sleep     ", gc.mem_free())
 
 # Enter Deep Sleep until the next sample point
 alarm.exit_and_deep_sleep_until_alarms(time_alarm)
@@ -593,13 +605,17 @@ alarm.exit_and_deep_sleep_until_alarms(time_alarm)
 # --------------------------------------
 #
 # --------------------------------------
+2023-07-30 - CircuitPython 8.2.1 - Memory issues causing 'Crash Crikey' not seen pre 8.1.0
+             Added Garbage collection following image loads in effort to reduce memory footprint
+             this appeared to cure the 'Crash Crikey' issue for 8.2.1
+             Memory management required addition of gc module
+
 2023-02-25 -
              Align sampling to minute boundaries
              WiFi and logging routine tidy
              Linearise routine now self contained
              Comment updates
              Source location comment updated from MTMP to MTDL
-
 
 2023-02-20 -
              Added place holders to settings.toml for web based workflow at
