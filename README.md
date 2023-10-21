@@ -125,6 +125,14 @@ The graphed data for Battery and Temperature were retreived from the published M
 ## MQQT
 Two <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/MQTT" target="_blank">MQQT</a> streams are published if suitable settings are applied to the 'secrets.py' file. The streams are Temperature and Voltage of the battery (or USB if powered from a USB port).  
 
+<div align="center">
+  <div style="display: flex; align-items: flex-start;">
+  <img src="https://github.com/OneOfTheInfiniteMonkeys/MTDL/blob/main/images/2023-10-20%20Example%20Logged%20Datat.png?raw=true" width="400px" alt="Adafruit IO MQQT MagTag Data Log. Image copyright (c) 20 Oct 2023 OneOfTheInfiniteMonkeys All Rights Reserved.">
+  </div>
+</div>  
+
+The data taken over a number of days shows that if the 2000 mAh battery terminal voltage drop due to dicharge is kept to less than ~ 0.1 Volt, ~ 8 hours. The subsequent re-charge cycle does not unduly influence measured temperature. Voltage delta might be used to detect removal of the USB power as the MagTag can not identify the power source.
+
 See <a rel="noopener noreferrer" href="https://learn.adafruit.com/mqtt-in-circuitpython" target="_blank">here</a> for more information on MQQT.   
 
 ## Features Summary
