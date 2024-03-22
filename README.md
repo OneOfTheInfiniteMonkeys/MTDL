@@ -21,7 +21,7 @@ The <a rel="noopener noreferrer" href="https://learn.adafruit.com/welcome-to-cir
 Requirements
 - <a rel="noopener noreferrer" href="https://www.adafruit.com/product/4800" target="_blank">Adafruit Magtag</a>
 - <a rel="noopener noreferrer" href="https://www.adafruit.com/product/4236" target="_blank">Adafruit LiPo Cell (typical)</a>
-- <a rel="noopener noreferrer" href="https://downloads.circuitpython.org/bin/adafruit_magtag_2.9_grayscale/en_GB/adafruit-circuitpython-adafruit_magtag_2.9_grayscale-en_GB-8.0.0.uf2" target="_blank">CicruitPython 9.0.0</a>
+- <a rel="noopener noreferrer" href="https://downloads.circuitpython.org/bin/adafruit_magtag_2.9_grayscale/en_GB/adafruit-circuitpython-adafruit_magtag_2.9_grayscale-en_GB-9.0.0.uf2" target="_blank">CicruitPython 9.0.0</a>
 
 Optional  
 - <a rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/USB-C" target="_blank">USB C cable connection to host computer</a>
